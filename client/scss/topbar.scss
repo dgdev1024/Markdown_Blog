@@ -1,0 +1,82 @@
+.tdm-topbar {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background-color: $topbar-bg;
+    color: $topbar-text;
+    border-bottom: 2px solid $topbar-border;
+    z-index: 100;
+
+    .tdm-topbar-brand-logo {
+        display: block;
+        float: left;
+        padding: 8px;
+    }
+
+    .tdm-topbar-brand-name {
+        display: block;
+        float: left;
+        margin-top: 10px;
+        margin-left: 8px;
+        margin-bottom: 6px;
+        font-family: "Lusitana", serif;
+        font-size: 20px;
+
+        @media #{$xs-screen} {
+            display: none;
+        }
+    }
+
+    .tdm-topbar-menu-icon {
+        display: none;
+
+        @media #{$sm-screen} {
+            display: block;
+            float: right;
+            padding: 8px;
+            font-size: 20px;
+            
+            &:hover {
+                background-color: $topbar-bg-hover;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .tdm-topbar-menu {
+        display: block;
+        float: right;
+
+        @media #{$sm-screen} {
+            display: none;
+            float: none;
+
+            &.tdm-topbar-toggled {
+                display: block;
+            }
+        }
+
+        a {
+            display: inline-block;
+            padding: 8px;
+            font-size: 20px;
+            text-decoration: none;
+            font-family: "Lusitana", serif;
+            color: $topbar-text;
+            @include transition(0.2s);
+
+            @media #{$sm-screen} {
+                display: block;
+                clear: both;
+            }
+
+            &:hover {
+                background-color: $topbar-bg-hover;
+            }
+
+            &:active {
+                background-color: $topbar-bg-hover;
+            }
+        }
+    }
+}

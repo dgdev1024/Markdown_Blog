@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: "Lusitana", serif;
+}
+
+html, body, #app {
+    height: 100%;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Lusitana|Permanent+Marker);
+@import './scss/mixins.scss';
+@import './scss/colors.scss';
+@import './scss/screens.scss';
+@import './scss/topbar.scss';
+@import './scss/flash.scss';
+
+.tdm-body {
+    height: 100%;
+    overflow: auto;
+    background-color: $page-bg;
+
+    @import './scss/home.scss';
+    @import './scss/form.scss';
+}

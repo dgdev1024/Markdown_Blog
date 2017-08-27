@@ -1,0 +1,27 @@
+<div class="tdm-form">
+        <main class="tdm-form-main">
+            <h2>Authenticate Password Reset</h2>
+            <form (submit)="onFormSubmit($event)">
+                <div class="tdm-form-element">
+                    <label for="code">Enter the Authentication Code: </label>
+                    <input type="password" 
+                           class="tdm-form-input" 
+                           id="code" 
+                           name="authCode" 
+                           [(ngModel)]="authCode"
+                           required />
+                </div>
+                <div class="tdm-form-element">
+                    <button type="submit" class="tdm-form-button">Authenticate</button>
+                </div>
+            </form>
+        </main>
+        <aside class="tdm-form-aside">
+            <h2>Instructions</h2>
+            <p>
+                You should have received a code in your email inbox. Enter the code in
+                the text box in order to authenticate your password reset request, so
+                you can change your password.
+            </p>
+        </aside>
+    </div>

@@ -108,7 +108,7 @@ module.exports = {
                         emailAddress,
                         fullName: user.fullName,
                         authenticationCode: code,
-                        authenticationLink: token.authenticationLink
+                        authenticationLink: token.authenticateLink
                     }), (err) => {
                         // Any errors?
                         if (err) {
@@ -120,11 +120,11 @@ module.exports = {
                         }
 
                         // Done.
-                        return next(null);
+                        return next(null, token.authenticateLink);
                     }
                 );
             }
-        ], (err) => {
+        ], (err, link) => {
             // Any errors?
             if (err) {
                 console.log(err);
@@ -132,7 +132,8 @@ module.exports = {
             }
 
             return callback(null, {
-                message: 'An authentication code has been sent to your inbox. Check your email.'
+                message: 'An authentication code has been sent to your inbox. Check your email.',
+                link: link
             });
         });
     },

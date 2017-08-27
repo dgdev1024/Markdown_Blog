@@ -25,7 +25,7 @@ module.exports.transport = nodemailer.createTransport({
 //
 // Verify Your Account
 module.exports.verifyEmail = details => {
-    const url = `${process.env.SITE_URL}/api/user/verify/${details.verifyId}`;
+    const url = `${process.env.SITE_URL}/user/verify/${details.verifyId}`;
 
     const body = `
         <div>
@@ -51,6 +51,8 @@ module.exports.verifyEmail = details => {
 
 // Password Reset Request
 module.exports.passwordResetRequest = details => {
+    const url = `${process.env.SITE_URL}/user/authenticatePasswordReset/${details.authenticationLink}`;
+
     const body = `
         <div>
             <h2>Hello, ${details.fullName}!</h2>
@@ -58,6 +60,10 @@ module.exports.passwordResetRequest = details => {
                 You are receiving this email because a password reset has been requested for your account.<br />
                 Enter the following code in order to verify the password reset request:<br /><br />
                 <h3>${details.authenticationCode}</h3>
+            </p>
+            <p>
+                If you need to get back to the authentication page to authenticate later, click this link:<br />
+                <a href="${url}">${url}</a>
             </p>
             <p>
                 If you did not request this reset, you may ignore this email.

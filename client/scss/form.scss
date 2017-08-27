@@ -1,0 +1,105 @@
+.tdm-form {
+    width: 95%;
+    max-width: 960px;
+    overflow: auto;
+    margin: 60px auto 0px auto;
+
+    h2 {
+        text-align: center;
+        border-bottom: 2px solid $page-text;
+    }
+
+    .tdm-form-main {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        border-right: 1px solid $page-text;
+
+        @media #{$sm-screen} {
+            float: none;
+            width: 95%;
+            margin: 0px auto;
+            border-right: none;
+        }
+
+        form {
+            padding: 16px;
+        }
+
+        .tdm-form-element {
+            margin-bottom: 12px;
+
+            label {
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            .tdm-form-input {
+                display: block;
+                width: 100%;
+                padding: 4px;
+                box-sizing: border-box;
+                background-color: $input-bg;
+                color: $input-text;
+                border: 2px solid $input-text;
+                @include border-radius(8px);
+                @include transition(0.2s);
+
+                &:hover {
+                    background-color: $input-bg-hover;
+                }
+            }
+
+            .tdm-form-button {
+                display: block;
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                font-size: 16px;
+                background-color: $page-bg;
+                color: $page-text;
+                border: 2px solid $page-text;
+                @include border-radius(8px);
+                @include transition(0.2s);
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: $page-text;
+                    color: $page-bg;
+                }
+            }
+        }
+    }
+
+    .tdm-form-aside {
+        float: right;
+        width: 50%;
+        box-sizing: border-box;
+        border-left: 1px solid $page-text;
+        
+        @media #{$sm-screen} {
+            float: none;
+            width: 95%;
+            margin: 0px auto;
+            border-left: none;
+        }
+
+        ul {
+            padding: 32px;
+        }
+
+        p {
+            padding: 16px 32px;
+        }
+
+        a {
+            text-decoration: none;
+            color: $page-link;
+
+            &:hover {
+                text-decoration: underline;
+                color: $page-link-hover;
+            }
+        }
+    }
+}

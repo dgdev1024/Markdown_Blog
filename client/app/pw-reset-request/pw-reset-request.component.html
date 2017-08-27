@@ -1,0 +1,27 @@
+<div class="tdm-form">
+        <main class="tdm-form-main">
+            <h2>Request Password Reset</h2>
+            <form (submit)="onFormSubmit($event)">
+                <div class="tdm-form-element">
+                    <label for="emailAddress">Enter Your Email Address: </label>
+                    <input type="text" 
+                           class="tdm-form-input" 
+                           id="emailAddress" 
+                           name="emailAddress" 
+                           [(ngModel)]="emailAddress"
+                           required />
+                </div>
+                <div class="tdm-form-element">
+                    <button type="submit" class="tdm-form-button">Request Password Reset</button>
+                </div>
+            </form>
+        </main>
+        <aside class="tdm-form-aside">
+            <h2>Instructions</h2>
+            <p>
+                Enter the email address associated with your user account.
+                We will send a code to this address, which you will need to enter in order to
+                authenticate the password reset, so you can change your password.
+            </p>
+        </aside>
+    </div>

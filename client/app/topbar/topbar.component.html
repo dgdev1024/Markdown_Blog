@@ -1,0 +1,16 @@
+<div class="tdm-topbar" (mouseleave)="resetToggle()">
+    <a routerLink="/">
+        <img class="tdm-topbar-brand-logo" src="https://www.dropbox.com/s/kfqcmpk5t9io4gp/logo.png?raw=1" title="The Daily Markdown" alt="The Daily Markdown" />
+    </a>
+    <div class="tdm-topbar-brand-name">
+        The Daily <strong>MARKDOWN</strong>
+    </div>
+    <div class="tdm-topbar-menu-icon" (click)="toggleMenu()">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="{{ showMenu ? 'tdm-topbar-menu tdm-topbar-toggled' : 'tdm-topbar-menu' }}">
+        <a routerLink="/" class="tdm-topbar-menu-item" (click)="resetToggle()">Home</a>
+        <a routerLink="/user/login" class="tdm-topbar-menu-item" (click)="resetToggle()">Log In</a>
+        <a routerLink="/user/register" class="tdm-topbar-menu-item" (click)="resetToggle()">Sign Up</a>
+    </div>
+</div>

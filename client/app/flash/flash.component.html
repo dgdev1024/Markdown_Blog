@@ -1,0 +1,9 @@
+<div class="{{ flash.getFlashClass() }}" *ngIf="flash.message">
+    <p>{{ flash.message }}</p>
+    <div class="tdm-flash-close" (click)="flash.clear()">
+        <i class="fa fa-times"></i>
+    </div>
+    <ul *ngIf="flash.details.length > 0">
+        <li *ngFor="let detail of flash.details">{{ detail }}</li>
+    </ul>
+</div>

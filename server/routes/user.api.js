@@ -47,6 +47,18 @@ router.get('/verify/:verifyId', (req, res) => {
 
 // POST: Logs a user in locally.
 router.post('/login', (req, res) => {
+    if (!req.body.emailAddress && !req.body.password) {
+        return res.status(400).json({ error: { status: 401, message: 'Please enter your login credentials.' }});
+    }
+
+    if (!req.body.emailAddress) {
+        return res.status(400).json({ error: { status: 401, message: 'Please enter your email address.' }});
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({ error: { status: 401, message: 'Please enter your password.' }});
+    }
+
     // Let Passport handle the authentication.
     passport.authenticate('local', (err, user, info) => {
         // Any errors with authentication?
@@ -56,7 +68,7 @@ router.post('/login', (req, res) => {
 
         // Was the user authenticated successfully?
         if (!user) {
-            return res.status(401).json({ error: info.message });
+            return res.status(401).json({ error: { status: 401, message: info.message }});
         }
 
         // Generate a JWT.
