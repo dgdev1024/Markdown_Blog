@@ -82,9 +82,11 @@ blogSchema.virtual('averageRating').get(function () {
     if (this.ratings.length === 0) {
         return 0;
     } else {
-        return this.ratings.reduce((acc, val) => {
+        const score = this.ratings.reduce((acc, val) => {
             return acc + val.score
         }, 0) / this.ratings.length;
+
+        return Number(Math.round(score + 'e2') + 'e-2');
     }
 });
 
@@ -96,6 +98,11 @@ blogSchema.virtual('ratingCount').get(function () {
 // Gets the number of total comments.
 blogSchema.virtual('commentCount').get(function () {
     return this.comments.length;
+});
+
+// Gets the 'heat' of a blog.
+blogSchema.virtual('heat').get(function () {
+    return this.comments.length + this.ratings.length;
 });
 
 // Checks to see if a certain user rated a blog.

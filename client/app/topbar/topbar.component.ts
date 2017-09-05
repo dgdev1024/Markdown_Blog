@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -8,8 +10,9 @@ import { Component, OnInit } from '@angular/core';
 export class TopbarComponent implements OnInit {
 
   showMenu: boolean = false;
+  searchQuery: string = '';
 
-  constructor() { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   toggleMenu () {
     this.showMenu = !this.showMenu;
@@ -17,6 +20,15 @@ export class TopbarComponent implements OnInit {
 
   resetToggle () {
     this.showMenu = false;
+  }
+
+  onSearchSubmit (ev) {
+    ev.preventDefault();
+    
+    if (this.searchQuery) {
+      this.router.navigate([ '/blog/search' ], { queryParams: { query: this.searchQuery }});
+      this.resetToggle();
+    }
   }
 
   ngOnInit() {

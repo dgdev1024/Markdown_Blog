@@ -24,13 +24,13 @@ export class VerifyComponent implements OnInit {
           response => {
             const {message} = response.json();
             this.flash.deploy(message, [], FlashType.OK);
-            this.router.navigateByUrl('/');
+            this.router.navigate([ '/' ], { replaceUrl: true });
           },
 
           error => {
             const {message} = error.json().error;
             this.flash.deploy(message, [], FlashType.Error);
-            this.router.navigateByUrl('/');
+            this.router.navigate([ '/' ], { replaceUrl: true });
           }
         );
     });

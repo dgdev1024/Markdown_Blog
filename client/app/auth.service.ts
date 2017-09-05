@@ -29,6 +29,14 @@ export class AuthService {
       });
   }
 
+  fetchUserProfile (userId: string) {
+    return this.http.get(`/api/user/profile/${userId}`);
+  }
+
+  fetchUserSubs (userId: string, page: number) {
+    return this.http.get(`/api/user/subscriptions/${userId}?page=${page}`);
+  }
+
   getToken () {
     // Fetch the token from the browser's local storage.
     const jwt = localStorage.getItem(TDM_TOKEN);
@@ -61,7 +69,8 @@ export class AuthService {
       // Return the ID and full name claims.
       return {
         id: payload._id,
-        fullName: payload.fullName
+        fullName: payload.fullName,
+        token: jwt
       };
     }
     catch (err) {

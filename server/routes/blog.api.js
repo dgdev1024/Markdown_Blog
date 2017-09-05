@@ -4,6 +4,7 @@
 ///
 
 // Imports
+const escape = require('html-escape');
 const express = require('express');
 const blogController = require('../controllers/blog.controller');
 const authUtility = require('../utility/auth');
@@ -55,6 +56,14 @@ router.get('/recent', (req, res) => {
     })
 });
 
+// GET: Fetches all hot blogs.
+router.get('/hot', (req, res) => {
+    blogController.fetchHotBlogs(parseInt(req.query.page) || 0, (err, ok) => {
+        if (err) { return res.status(err.status).json({ error: err }) }
+        return res.status(200).json(ok);
+    });
+});
+
 // GET: Searches for blogs by keyword.
 router.get('/search', (req, res) => {
     blogController.fetchBlogsByKeyword({
@@ -88,7 +97,8 @@ router.put('/update/:blogId', authUtility.jwtAuthentication, (req, res) => {
             userId: user.id,
             blogId: req.params.blogId,
             title: req.body.title,
-            body: req.body.body
+            body: req.body.body,
+            keywords: req.body.keywords
         }, (err, ok) => {
             if (err) { return res.status(err.status).json({ error: err }) }
             return res.status(200).json(ok);
@@ -126,8 +136,8 @@ router.put('/postComment/:blogId', authUtility.jwtAuthentication, (req, res) => 
     });
 });
 
-// DELETE: Removes a comment from the blog.
-router.delete('/deleteComment/:blogId', authUtility.jwtAuthentication, (req, res) => {
+// PUT: Removes a comment from the blog.
+router.put('/deleteComment/:blogId', authUtility.jwtAuthentication, (req, res) => {
     authUtility.testLogin(req, (err, user) => {
         if (err) { return res.status(err.status).json({ error: err }) }
         blogController.removeComment({

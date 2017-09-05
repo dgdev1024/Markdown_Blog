@@ -170,9 +170,68 @@ module.exports = {
                 });
             }
 
+            // Also fetch the number of blogs this user has authored.
+            blogModel.find({ authorId: userId }, (err, blogs) => {
+                if (err) {
+                    return callback({
+                        status: 500,
+                        message: 'An error occured while fetching the user\'s blogs. Try again later.'
+                    });
+                }
+    
+                return callback(null, {
+                    fullName: user.fullName,
+                    emailAddress: user.emailAddress,
+                    joinDate: user.joinDate,
+                    subscriptionCount: user.subscriptions.length,
+                    blogCount: blogs.length
+                });
+            });
+        });
+    },
+
+    ///
+    /// @fn     fetchSubscriptions
+    /// @brief  Fetches a list of the user's subscriptions.
+    ///
+    /// Details: userId, page
+    ///
+    /// @param {object} details The details object.
+    /// @param {function} callback Run when this function finishes.
+    ///
+    fetchSubscriptions (details, callback) {
+        userModel.findById(details.userId, (err, user) => {
+            if (err) {
+                return callback({
+                    status: 500,
+                    message: 'An error occured while fetching your subscription list. Try again later.'
+                });
+            }
+
+            if (!user || user.verified === false) {
+                return callback({
+                    status: 404,
+                    message: 'A verified user with the given ID was not found.'
+                });
+            }
+
+            if (user.subscriptions.length === 0) {
+                return callback({
+                    status: 404,
+                    message: 'This user is not subscribed to anybody.'
+                });
+            }
+            
+            // Get the subscriptions requested.
+            const start = 0 + (9 * details.page);
+            const end = start + 9;
+            const subscriptions = user.subscriptions.slice(start, end);
+
+            // Return the subscriptions.
             return callback(null, {
-                fullName: user.fullName,
-                emailAddress: user.emailAddress
+                all: user.subscriptions.map(v => v.subscriberId),
+                subscriptions,
+                lastPage: end >= user.subscriptions.length
             });
         });
     },
@@ -210,7 +269,7 @@ module.exports = {
                 const mapped = blogs.map((val, idx) => {
                     if (idx === 10) { return; }
                     return {
-                        fullUrl: `${process.env.SITE_URL}/api/blog/view/${val._id.toString()}`,
+                        fullUrl: `${process.env.SITE_URL}/blog/view/${val._id.toString()}`,
                         blogId: val._id.toString(),
                         postDate: val.postDate,
                         title: val.title,
@@ -393,6 +452,6 @@ module.exports = {
             return callback(null, {
                 message: 'Subscription has been removed.'
             });
-        })
+        });
     }
 };

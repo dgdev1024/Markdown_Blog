@@ -4,6 +4,7 @@
 ///
 
 // Imports
+const escape = require('html-escape');
 const express = require('express');
 const passport = require('passport');
 const passportLocal = require('passport-local').Strategy;
@@ -120,6 +121,17 @@ router.post('/changePassword/:authenticateId', (req, res) => {
 // GET: Fetches a user's profile.
 router.get('/profile/:userId', (req, res) => {
     userController.fetchProfile(req.params.userId, (err, ok) => {
+        if (err) { return res.status(err.status).json({ error: err }) }
+        return res.status(200).json(ok);
+    });
+});
+
+// GET: Fetches a list of the users the given user is subscribed to.
+router.get('/subscriptions/:userId', (req, res) => {
+    userController.fetchSubscriptions({
+        userId: req.params.userId,
+        page: parseInt(req.query.page) || 0
+    }, (err, ok) => {
         if (err) { return res.status(err.status).json({ error: err }) }
         return res.status(200).json(ok);
     });

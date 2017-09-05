@@ -34,7 +34,10 @@ const userSchema = new mongoose.Schema({
     // Account verification details.
     verified: { type: Boolean, default: false },
     verifyId: { type: String },
-    verifyBy: { type: Date, default: Date.now, expires: 1200 }
+    verifyBy: { type: Date, default: Date.now, expires: 1200 },
+
+    // The user's join date.
+    joinDate: { type: Date, default: Date.now }
 });
 
 // The user's full name.

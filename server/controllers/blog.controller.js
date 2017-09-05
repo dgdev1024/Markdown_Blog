@@ -4,6 +4,7 @@
 ///
 
 // Imports
+const escape = require('html-escape');
 const waterfall = require('async').waterfall;
 const userModel = require('../models/user.model');
 const blogModel = require('../models/blog.model');
@@ -91,9 +92,9 @@ module.exports = {
                 let blog = new blogModel();
                 blog.author = user.fullName;
                 blog.authorId = details.userId;
-                blog.title = details.title;
-                blog.body = details.body;
-                blog.keywords = details.keywords;
+                blog.title = escape(details.title);
+                blog.body = escape(details.body);
+                blog.keywords = escape(details.keywords);
 
                 // Save the object to the database.
                 blog.save(err => {
@@ -105,16 +106,17 @@ module.exports = {
                     }
 
                     // Done.
-                    return next(null);
+                    return next(null, blog._id.toString());
                 });
             }
-        ], (err) => {
+        ], (err, blogId) => {
             if (err) {
                 return callback(err);
             }
 
             return callback(null, {
-                message: 'Your blog has been posted!'
+                message: 'Your blog has been posted!',
+                id: blogId
             });
         });
     },
@@ -129,6 +131,13 @@ module.exports = {
     fetchBlog (blogId, callback) {
         blogModel.findById(blogId, (err, blog) => {
             if (err) {
+                if (err.name && err.name === 'CastError') {
+                    return callback({
+                        status: 400,
+                        message: 'The blog ID given is not valid.'
+                    });
+                }
+
                 return callback({
                     status: 500,
                     message: 'An error occured while searching for the blog requested. Try again later.'
@@ -146,15 +155,11 @@ module.exports = {
             // Return the blog.
             return callback(null, {
                 title: blog.title,
-                author: {
-                    name: blog.author,
-                    id: blog.authorId
-                },
+                authorName: blog.author,
+                authorId: blog.authorId,
                 postDate: blog.postDate,
-                rating: {
-                    average: blog.averageRating,
-                    count: blog.ratingCount
-                },
+                averageRating: blog.averageRating,
+                ratingCount: blog.ratingCount,
                 commentCount: blog.commentCount,
                 body: blog.body,
                 keywords: blog.keywords
@@ -174,6 +179,13 @@ module.exports = {
     fetchBlogComments (details, callback) {
         blogModel.findById(details.blogId, (err, blog) => {
             if (err) {
+                if (err.name && err.name === 'CastError') {
+                    return callback({
+                        status: 400,
+                        message: 'The blog ID given is not valid.'
+                    });
+                }
+                
                 return callback({
                     status: 500,
                     message: 'An error occured while searching for the blog requested. Try again later.'
@@ -221,7 +233,7 @@ module.exports = {
         }
 
         blogModel.find(
-            { $text: { $search: details.keywords }},
+            { $text: { $search: escape(details.keywords) }},
             { score: { $meta: 'textScore' }}
         )
             // .sort({ score: { $meta: 'textScore' }})
@@ -247,7 +259,7 @@ module.exports = {
                 const mapped = blogs.map((val, idx) => {
                     if (idx === 10) { return; }
                     return {
-                        fullUrl: `${process.env.SITE_URL}/api/blog/view/${val._id.toString()}`,
+                        fullUrl: `${process.env.SITE_URL}/blog/view/${val._id.toString()}`,
                         blogId: val._id.toString(),
                         postDate: val.postDate,
                         title: val.title,
@@ -331,7 +343,7 @@ module.exports = {
                         const mapped = blogs.map((val, idx) => {
                             if (idx === 10) { return; }
                             return {
-                                fullUrl: `${process.env.SITE_URL}/api/blog/view/${val._id.toString()}`,
+                                fullUrl: `${process.env.SITE_URL}/blog/view/${val._id.toString()}`,
                                 blogId: val._id.toString(),
                                 postDate: val.postDate,
                                 title: val.title,
@@ -355,6 +367,50 @@ module.exports = {
 
             return callback(null, result);
         });
+    },
+
+    ///
+    /// @fn     fetchHotBlogs
+    /// @brief  Fetches blogs with the most 'heat' in a given timeframe.
+    ///
+    /// @param {number} page The page of results.
+    /// @param {function} callback Run when this function finishes.
+    ///
+    fetchHotBlogs (page, callback) {
+        // Get the current date and backtrack 10 days.
+        let date = new Date();
+        date.setDate(date.getDate() - 10);
+
+        // Fetch from the database.
+        blogModel.find({ postDate: { $gte: date }})
+            .exec((err, blogs) => {
+                if (err) {
+                    return callback({
+                        status: 500,
+                        message: 'An error occured while fetching the hot blogs. Try again later.'
+                    });
+                }
+
+                if (blogs.length === 0) {
+                    return callback({
+                        status: 404,
+                        message: 'No blogs have been posted in a while.'
+                    });
+                }
+                
+                // Get the blogs requested.
+                const start = 0 + (10 * page);
+                const end = start + 10;
+                const hotBlogs = blogs.sort((a, b) => {
+                    return b.heat - a.heat;
+                }).slice(start, end);
+
+                // Return the blogs.
+                return callback(null, {
+                    blogs: hotBlogs,
+                    lastPage: end >= blogs.length
+                })
+            });
     },
 
     ///
@@ -388,7 +444,7 @@ module.exports = {
                 const mapped = blogs.map((val, idx) => {
                     if (idx === 10) { return; }
                     return {
-                        fullUrl: `${process.env.SITE_URL}/api/blog/view/${val._id.toString()}`,
+                        fullUrl: `${process.env.SITE_URL}/blog/view/${val._id.toString()}`,
                         blogId: val._id.toString(),
                         postDate: val.postDate,
                         title: val.title,
@@ -410,7 +466,7 @@ module.exports = {
     /// @fn     updateBlog
     /// @brief  Updates the title and contents of the blog.
     ///
-    /// Details: userId, blogId, title, body
+    /// Details: userId, blogId, title, body, keywords
     ///
     /// @param {object} details The details object.
     /// @param {function} callback Run when this function finishes.
@@ -448,10 +504,44 @@ module.exports = {
                 });
             },
 
+            // Validate the updated details.
+            (blog, next) => {
+                if (!details.title) {
+                    return next({
+                        status: 400,
+                        message: 'Please provide a title.'
+                    });
+                }
+
+                if (!details.body) {
+                    return next({
+                        status: 400,
+                        message: 'Please provide a body.'
+                    });
+                }
+
+                if (!details.keywords) {
+                    return next({
+                        status: 400,
+                        message: 'Please provide some keywords.'
+                    });
+                }
+
+                if (details.body.length < 50 || details.body.length > 10000) {
+                    return next({
+                        status: 400,
+                        message: 'The blog\'s body must be between 50 and 10,000 characters in length.'
+                    });
+                }
+
+                return next(null, blog);
+            },
+
             // Update the blog.
             (blog, next) => {
-                blog.title = details.title;
-                blog.body = details.body;
+                blog.title = escape(details.title);
+                blog.body = escape(details.body);
+                blog.keywords = escape(details.keywords);
 
                 blog.save(err => {
                     if (err) {
@@ -577,7 +667,7 @@ module.exports = {
                 }
 
                 // Make sure the comment is between 10 and 200 characters in length.
-                if (details.comment.length < 10 && details.comment.length > 200) {
+                if (details.comment.length < 10 || details.comment.length > 200) {
                     return next({
                         status: 400,
                         message: 'Comments must be between 10 and 200 characters in length'
@@ -635,7 +725,7 @@ module.exports = {
                 blog.comments.push({
                     author: user.fullName,
                     authorId: details.userId,
-                    body: details.comment
+                    body: escape(details.comment)
                 });
 
                 blog.save(err => {

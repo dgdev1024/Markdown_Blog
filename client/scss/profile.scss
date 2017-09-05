@@ -1,0 +1,161 @@
+.tdm-profile {
+    width: 95%;
+    max-width: 1024px;
+    overflow: auto;
+    margin: 60px auto 0px auto;
+    color: $page-text;
+
+    ul, p {
+        font-size: 18px;
+
+        @media #{$sm-screen} {
+            font-size: 16px;
+        }
+    }
+
+    p {
+        padding: 8px 0px;
+        text-align: center;
+
+        @media #{$sm-screen} {
+            text-align: left;
+        }
+    }
+    
+    a {
+        font-size: 18px;
+        text-decoration: none;
+        color: $page-link;
+
+        @media #{$sm-screen} {
+            font-size: 16px;
+        }
+
+        &:hover {
+            text-decoration: underline;
+            color: $page-link-hover;
+        }
+    }
+    
+    h1 {
+        font-size: 44px;
+        text-align: center;
+
+        @media #{$sm-screen} {
+            font-size: 36px;
+            text-align: left;
+        }
+    }
+
+    .tdm-profile-details {
+        ul {
+            padding: 16px 0px;
+            text-align: center;
+            list-style: none;
+
+            @media #{$sm-screen} {
+                margin-left: 32px;
+                text-align: left;
+                list-style: disc;
+            }
+        }
+    }
+
+    .tdm-profile-blogs {
+        .tdm-profile-blog {
+            float: left;
+            width: 48%;
+            padding: 8px 0px;
+            margin: 16px 1%;
+            text-align: center;
+            background-color: $input-bg;
+            @include border-radius(10px);
+            @include box-shadow(5px, 5px, 3px, rgba(0, 0, 0, 0.3));
+
+            @media #{$sm-screen} {
+                float: none;
+                width: 95%;
+                margin: 16px auto;
+            }
+
+            .tdm-profile-blog-link {
+                display: block;
+                font-size: 20px;
+                text-decoration: none;
+                color: $page-link;
+
+                @media #{$sm-screen} {
+                    font-size: 18px;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+                    color: $page-link-hover;
+                }
+            }
+            
+            span {
+                display: block;
+                font-size: 18px;
+                margin: 2px 0px;
+
+                @media #{$sm-screen} {
+                    font-size: 16px;
+                }
+            }
+
+            &:nth-child(even):after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+        }
+
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+    }
+
+    .tdm-profile-subs {
+        .tdm-profile-sub {
+            float: left;
+            width: 48%;
+            padding: 8px 0px;
+            margin: 16px 1%;
+            text-align: center;
+            background-color: $input-bg;
+            @include border-radius(10px);
+            @include box-shadow(5px, 5px, 3px, rgba(0, 0, 0, 0.3));
+
+            @media #{$sm-screen} {
+                float: none;
+                width: 95%;
+                margin: 16px auto;
+            }
+
+            .tdm-profile-sub-link {
+                display: block;
+                font-size: 20px;
+                text-decoration: none;
+                color: $page-link;
+
+                @media #{$sm-screen} {
+                    font-size: 18px;
+                }
+
+                &:hover {
+                    text-decoration: underline;
+                    color: $page-link-hover;
+                }
+            }
+
+            &:nth-child(even):after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+        }
+    }
+}

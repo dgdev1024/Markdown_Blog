@@ -42,6 +42,7 @@
             display: block;
             width: 192px;
             padding: 8px;
+            margin-bottom: 4px;
             font-size: 20px;
             text-decoration: none;
             color: $page-text;
@@ -52,7 +53,9 @@
             @include transition(0.2s);
 
             @media #{$sm-screen} {
+                width: 95%;
                 margin: 0px auto;
+                margin-bottom: 4px;
             }
 
             @media #{$xs-screen} {

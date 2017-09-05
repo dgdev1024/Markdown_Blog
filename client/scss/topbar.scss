@@ -22,7 +22,7 @@
         font-family: "Lusitana", serif;
         font-size: 20px;
 
-        @media #{$xs-screen} {
+        @media #{$md-screen} {
             display: none;
         }
     }
@@ -56,9 +56,56 @@
             }
         }
 
+        .tdm-topbar-menu-item {
+            display: inline-block;
+            padding: 8px 4px;
+            
+            @media #{$sm-screen} {
+                display: block;
+                clear: both;
+            }
+        }
+
+        .tdm-topbar-input {
+            margin: 0px 4px;
+            padding: 0px 4px;
+            background-color: $topbar-bg;
+            color: $topbar-text;
+            border: 2px solid $topbar-text;
+            @include border-radius(2px);
+
+            @media #{$sm-screen} {
+                display: block;
+                padding: 4px;
+                width: 100%;
+                margin: 0px auto;
+                margin-bottom: 8px;
+            }
+        }
+
+        button {
+            margin: 0px 4px;
+            padding: 0px 4px;
+            background-color: $topbar-bg;
+            color: $topbar-text;
+            border: 2px solid $topbar-text;
+            @include border-radius(2px);
+            
+            @media #{$sm-screen} {
+                display: block;
+                padding: 4px;
+                width: 100%;
+                margin: 0px auto;
+            }
+
+            &:disabled {
+                color: darkgrey;
+            }
+        }
+
         a {
             display: inline-block;
-            padding: 8px;
+            padding: 8px 4px;
             font-size: 20px;
             text-decoration: none;
             font-family: "Lusitana", serif;

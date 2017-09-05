@@ -9,7 +9,7 @@ html, body, #app {
     height: 100%;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Lusitana|Permanent+Marker);
+@import url(https://fonts.googleapis.com/css?family=Lusitana|Permanent+Marker|Source+Code+Pro);
 @import './scss/mixins.scss';
 @import './scss/colors.scss';
 @import './scss/screens.scss';
@@ -22,5 +22,9 @@ html, body, #app {
     background-color: $page-bg;
 
     @import './scss/home.scss';
+    @import './scss/search.scss';
+    @import './scss/profile.scss';
+    @import './scss/dashboard.scss';
     @import './scss/form.scss';
+    @import './scss/blog.scss';
 }

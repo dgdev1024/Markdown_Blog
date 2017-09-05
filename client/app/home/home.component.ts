@@ -8,6 +8,8 @@ import { AuthService } from '../auth.service';
 })
 export class HomeComponent implements OnInit {
 
+  private searchQuery: string = '';
+
   constructor(private auth: AuthService) { }
 
   ngOnInit() {
