@@ -244,6 +244,7 @@ module.exports = {
             .limit(11)
             .exec((err, blogs) => {
                 if (err) {
+                    console.log(err);   // Just in case.
                     return callback({
                         status: 500,
                         message: 'An error occured while searching for blogs. Try again later.'

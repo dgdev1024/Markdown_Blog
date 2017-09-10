@@ -8,6 +8,7 @@ const waterfall = require('async').waterfall;
 const mongoose = require('mongoose');
 const userModel = require('../models/user.model');
 const blogModel = require('../models/blog.model');
+const regex = require('../utility/regex');
 const email = require('../utility/email');
 const validation = require('../utility/validation');
 
@@ -62,6 +63,17 @@ module.exports = {
                 user.save((err) => {
                     // Any errors saving the user?
                     if (err) {
+                        // Error 11000 indicates a duplicate entry in the database.
+                        //
+                        // In the case of TDM, the only unique field in our user model is the
+                        // email address field, so no regex matching should be necessary here.
+                        if (err.code === 11000) {
+                            return next({
+                                status: 409,
+                                message: 'There is another user registered with this email address.'
+                            });
+                        }
+
                         return next({
                             status: 500,
                             message: 'An error occured while saving the user. Try again later.'

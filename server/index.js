@@ -5,6 +5,7 @@
 
 // Imports
 const path = require('path');
+const helmet = require('helmet');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -14,6 +15,13 @@ const reportError = require('./utility/error').reportError;
 module.exports = () => {
     // Express and Middleware
     const app = express();
+    app.use(helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: [ "'self'" ]
+            }
+        }
+    }));
     app.use(express.static(path.join(__dirname, '..', 'dist')));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));

@@ -57,4 +57,12 @@
         padding-left: 16px;
         border-left: 2px solid $page-text;
     }
+
+    // Images
+    img {
+        display: block;
+        width: 95%;
+        max-width: 640px;
+        margin: 0px auto;
+    }
 }
