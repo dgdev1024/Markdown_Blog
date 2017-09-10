@@ -1,0 +1,60 @@
+<div class="tdm-form">
+  <div class="tdm-form-main">
+    <span class="tdm-form-heading">
+      {{ 
+        mode === 'edit' ?
+          'Edit This Blog' :
+          'Create a New Blog'
+      }}
+    </span>
+    <form (submit)="onSubmit($event)">
+      <div class="tdm-form-element">
+        <label for="title">Blog Title:</label>
+        <input id="title"
+               name="title"
+               type="text"
+               [(ngModel)]="title" />
+      </div>
+      <div class="tdm-form-element">
+        <label for="keywords">Blog Keywords:</label>
+        <input id="keywords"
+               name="keywords"
+               type="text"
+               [(ngModel)]="keywords" />
+      </div>
+      <div class="tdm-form-element">
+        <label for="body">Blog Body:</label>
+        <textarea id="body"
+                  name="body"
+                  [(ngModel)]="body"
+                  (input)="onBodyChanged()"></textarea>
+      </div>
+      <div class="tdm-form-element">
+        <button type="submit">
+          {{
+            mode === 'edit' ?
+              'Finish Editing' :
+              'Create Blog'
+          }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="tdm-form-aside">
+    <span class="tdm-form-heading">Markdown Previewer</span>
+    <div class="tdm-form-preview tdm-markdown" [innerHTML]="parsed">
+
+    </div>
+    <span class="tdm-form-heading">Instructions</span>
+    <ul>
+      <li>All fields are required.</li>
+      <li>
+        The blog's raw body must contain between 50 and 10,000 characters.
+      </li>
+      <li>
+        Make sure to enter some keywords in the keywords box.
+        This will help other users search for your blog.
+      </li>
+    </ul>
+  </div>
+</div>

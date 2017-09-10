@@ -1,0 +1,45 @@
+<div class="tdm-form">
+    <form (submit)="onSubmit($event)">
+        <div class="tdm-form-main">
+            <span class="tdm-form-heading">
+                Change Your Password
+            </span>
+            <div class="tdm-form-element">
+                <label for="password">New Password:</label>
+                <input  name="password"
+                        type="password"
+                        [(ngModel)]="password" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="confirm">Confirm Password:</label>
+                <input  name="confirm"
+                        type="password"
+                        [(ngModel)]="confirm" />
+            </div>
+            <div class="tdm-form-element">
+                <button type="submit">Change Password</button>
+            </div>
+        </div>
+    </form>
+    <div class="tdm-form-aside">
+        <span class="tdm-form-heading">
+            Instructions
+        </span>
+        <ul>
+            <li>Both fields are required.</li>
+            <li>Your new password must be between 8 and 20 characters in length.</li>
+            <li>Your new password must contain at least one capital letter, one number, and one symbol.</li>
+        </ul>
+        <span class="tdm-form-heading">
+            Suggestions
+        </span>
+        <ul>
+            <li>Try to come up with a password that you know you can easily remember.</li>
+            <li>If you wish to enter a complex password, it may be a good idea to write it down somewhere safe.</li>
+            <li>
+                <a href="https://passwordsgenerator.net/" target="_blank">This webiste</a> can help you generate
+                strong, secure passwords, complete with mnemonics that can help you remember them.
+            </li>
+        </ul>
+    </div>
+</div>

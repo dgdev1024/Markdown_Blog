@@ -93,7 +93,7 @@ module.exports = {
                 blog.author = user.fullName;
                 blog.authorId = details.userId;
                 blog.title = escape(details.title);
-                blog.body = escape(details.body);
+                blog.body = details.body;
                 blog.keywords = escape(details.keywords);
 
                 // Save the object to the database.
@@ -126,9 +126,10 @@ module.exports = {
     /// @brief  Fetches a blog by its ID.
     ///
     /// @param {string} blogId The ID of the blog.
+    /// @param {string} userId The ID of the user viewing the blog, if they are logged in.
     /// @param {function} callback Run when this function finishes.
     ///
-    fetchBlog (blogId, callback) {
+    fetchBlog (blogId, userId, callback) {
         blogModel.findById(blogId, (err, blog) => {
             if (err) {
                 if (err.name && err.name === 'CastError') {
@@ -160,6 +161,7 @@ module.exports = {
                 postDate: blog.postDate,
                 averageRating: blog.averageRating,
                 ratingCount: blog.ratingCount,
+                hasRated: userId && blog.ratings.map(v => v.raterId).indexOf(userId) !== -1,
                 commentCount: blog.commentCount,
                 body: blog.body,
                 keywords: blog.keywords
@@ -403,7 +405,17 @@ module.exports = {
                 const end = start + 10;
                 const hotBlogs = blogs.sort((a, b) => {
                     return b.heat - a.heat;
-                }).slice(start, end);
+                }).slice(start, end).map(blog => {
+                    return {
+                        id: blog._id.toString(),
+                        title: blog.title,
+                        author: blog.author,
+                        authorId: blog.authorId,
+                        rating: blog.averageRating,
+                        ratingCount: blog.ratingCount,
+                        commentCount: blog.commentCount
+                    };
+                });
 
                 // Return the blogs.
                 return callback(null, {
@@ -540,7 +552,7 @@ module.exports = {
             // Update the blog.
             (blog, next) => {
                 blog.title = escape(details.title);
-                blog.body = escape(details.body);
+                blog.body = details.body;
                 blog.keywords = escape(details.keywords);
 
                 blog.save(err => {

@@ -1,0 +1,29 @@
+// Media Queries
+$md-screen: "only screen and (max-width: 800px)";
+$sm-screen: "only screen and (max-width: 640px)";
+$xs-screen: "only screen and (max-width: 320px)";
+
+// Fonts
+$normal-font: "Cantrell", sans-serif;
+$input-font: "Ubuntu Mono", monospace;
+$special-font: "Kalam", cursive;
+
+// Flash Box Colors
+$flash-default-bg: lightgrey;
+$flash-default-text: black;
+$flash-ok-bg: lightgreen;
+$flash-ok-text: darkgreen;
+$flash-error-bg: lightpink;
+$flash-error-text: darkred;
+
+// Webpage Colors
+$page-bg: #EEF0EF;
+$page-bg-hover: #D9D0C9;
+$page-text: #1C1314;
+$page-link: #58391C;
+$page-link-hover: #734B28;
+$topbar-bg: #1F1513;
+$topbar-bg-hover: #62595A;
+$topbar-text: #DFDFDF;
+$input-bg: #DFDFDF;
+$input-text: #1C1314;

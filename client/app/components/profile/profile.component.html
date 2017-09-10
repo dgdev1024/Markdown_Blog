@@ -1,0 +1,121 @@
+<div class="tdm-profile">
+  <div *ngIf="userFetching === false; else fetchingUser">
+    <div *ngIf="userError === ''; else fetchingUserError">
+      <div class="tdm-profile-details">
+        <span class="tdm-profile-heading">
+          {{ userFullName }}'s Profile
+        </span>
+        <ul>
+          <li>Name: {{ userFullName }}</li>
+          <li>Email Address: {{ userEmailAddress }}</li>
+          <li>Joined On: {{ userJoinDate }}</li>
+          <li>Subscription Count: {{ userSubCount }}</li>
+          <li>Blog Count: {{ userBlogCount }}</li>
+          <li *ngIf="myId !== '' && myId !== userId">
+            Subscription Status: 
+            <span *ngIf="isSubscribed; else notSubscribed">
+              Subscribed (<a href="javascript:void(0)" (click)="toggleSubscribe($event)">Click to Unsubscribe</a>)
+            </span>
+            <ng-template #notSubscribed>
+              Not Subscribed (<a href="javascript:void(0)" (click)="toggleSubscribe($event)">Click to Subscribe</a>)
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+      <div class="tdm-profile-panes">
+        <div *ngIf="subsFetching === false || subs.length > 0; else fetchingSubs">
+          <span class="tdm-profile-heading">Subscriptions</span>
+          <div *ngIf="subsError === ''; else fetchingSubsError">
+            <div class="tdm-profile-pagination">
+              <button [disabled]="subsPage === 0" (click)="onPreviousClicked('subs')"><i class="fa fa-chevron-left"></i></button>
+              <span>Page {{ subsPage + 1 }}</span>
+              <button [disabled]="subsLastPage" (click)="onNextClicked('subs')"><i class="fa fa-chevron-right"></i></button>
+            </div>
+            <div *ngFor="let sub of subs" class="tdm-profile-pane">
+              <a routerLink="/user/profile/{{ sub.subscriberId }}">
+                <span class="tdm-profile-subheading">
+                  {{ sub.subscriberName }}
+                </span>
+              </a>
+              <p *ngIf="myId !== '' && myId === userId">
+                <a href="javascript:void(0)" (click)="onUnsubscribeClicked(sub.subscriberId)">
+                  <i class="fa fa-times"></i> Unsubscribe
+                </a>
+              </p>
+            </div>
+          </div>
+          <ng-template #fetchingSubsError>
+            <div class="tdm-profile-notice">
+              <p><em>{{ subsError }}</em></p>
+            </div>
+          </ng-template>
+        </div>
+        <ng-template #fetchingSubs>
+          <div class="tdm-profile-notice">
+            <p><em>Fetching user subscriptions. Please Wait...</em></p>
+          </div>
+        </ng-template>
+      </div>
+      <div class="tdm-profile-panes">
+        <div *ngIf="blogsFetching === false || blogs.length > 0; else fetchingBlogs">
+          <span class="tdm-profile-heading">Created Blogs</span>
+          <div *ngIf="blogsError === ''; else fetchingBlogsError">
+            <div class="tdm-profile-pagination">
+              <button [disabled]="blogsPage === 0" (click)="onPreviousClicked('blogs')"><i class="fa fa-chevron-left"></i></button>
+              <span>Page {{ blogsPage + 1 }}</span>
+              <button [disabled]="blogsLastPage" (click)="onNextClicked('blogs')"><i class="fa fa-chevron-right"></i></button>
+            </div>
+            <div>
+              <div *ngFor="let blog of blogs" class="tdm-profile-pane">
+                <a routerLink="/blog/view/{{ blog.blogId }}">
+                  <span class="tdm-profile-subheading">
+                    {{ blog.title }}
+                  </span>
+                </a>
+                <p>
+                  Rating: {{ blog.rating }} / 5 ({{ blog.ratingCount }} ratings)<br />
+                  {{ blog.commentCount }} comments
+                </p>
+                <p *ngIf="myId !== '' && myId === userId">
+                  <a href="javascript:void(0)" (click)="onEditBlogClicked(blog.blogId)">
+                    <i class="fa fa-pencil"></i> Edit Blog
+                  </a><br />
+                  <a href="javascript:void(0)" (click)="onDeleteBlogClicked(blog.blogId)">
+                    <i class="fa fa-trash"></i> Delete Blog
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <ng-template #fetchingBlogsError>
+            <div class="tdm-profile-notice">
+              <p><em>{{ blogsError }}</em></p>
+            </div>
+          </ng-template>
+        </div>
+        <ng-template #fetchingBlogs>
+          <div class="tdm-profile-notice">
+            <p><em>Fetching user blogs. Please wait...</em></p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <ng-template #fetchingUserError>
+      <div class="tdm-profile-notice">
+        <span class="tdm-profile-notice-heading">Whoops!</span>
+        <p>
+          <em>
+            We could not fetch the profile you requested. Sorry about that.<br />
+            Error: {{ userError }}
+          </em>
+        </p>
+      </div>
+    </ng-template>
+  </div>
+  <ng-template #fetchingUser>
+    <div class="tdm-profile-notice">
+      <span class="tdm-profile-notice-heading">Please Wait...</span>
+      <p><em>We are fetching the user profile you requested. We'll have it for you shortly...</em></p>
+    </div>
+  </ng-template>
+</div>

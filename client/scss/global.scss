@@ -1,0 +1,105 @@
+///
+/// @file   global.scss
+/// @brief  Sets the general ground-rules for our website's styling.
+///
+
+// Reset Margin and Padding
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+// Body's Colors and Font Family
+body {
+    background-color: $page-bg;
+    color: $page-text;
+    font-family: $normal-font;
+}
+
+// Normal Font Size
+div, span, label, p, ul, ol, a, i, code {
+    font-size: 18px;
+
+    @media #{$sm-screen} {
+        font-size: 16px;
+    }
+}
+
+// Paragraphs
+p, code, li, textarea {
+    line-height: 1.3em;
+}
+
+// Links
+a {
+    text-decoration: none;
+    color: $page-link;
+
+    &:hover {
+        text-decoration: underline;
+        color: $page-link-hover;
+    }
+}
+
+// Form Labels
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+// Input Elements
+input[type="text"], input[type="password"], textarea {
+    display: block;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: $input-bg;
+    color: $input-text;
+    border: 2px solid $input-text;
+    @include border-radius(8px);
+    @include transition(0.1s);
+
+    &:hover {
+        background-color: $page-bg;
+    }
+
+    @media #{$sm-screen} {
+        font-size: 14px;
+    }
+}
+
+// Textarea
+textarea {
+    display: block;
+    width: 100%;
+    resize: none;
+}
+
+// Buttons
+button {
+    display: block;
+    padding: 8px;
+    font-size: 16px;
+    background-color: $page-bg;
+    color: $page-text;
+    border: 2px solid $page-text;
+    @include border-radius(8px);
+    @include transition(0.1s);
+
+    &:hover {
+        cursor: pointer;
+        background-color: $page-text;
+        color: $page-bg;
+    }
+
+    &:disabled {
+        background-color: $page-bg;
+        color: grey;
+
+        &:hover {
+            cursor: default;
+            background-color: $page-bg;
+            color: grey;
+        }
+    }
+}

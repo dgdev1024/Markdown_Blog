@@ -1,0 +1,88 @@
+.tdm-form {
+    width: 95%;
+    max-width: 1024px;
+    overflow: auto;
+    margin: 48px auto 16px auto;
+
+    .tdm-form-heading {
+        display: block;
+        padding: 8px 0px;
+        font-family: $special-font;
+        font-variant: small-caps;
+        font-size: 32px;
+        text-align: center;
+
+        @media #{$md-screen} {
+            font-size: 24px;
+        }
+
+        @media #{$sm-screen} {
+            text-align: left;
+        }
+    }
+
+    .tdm-form-main {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+
+        .tdm-form-element {
+            margin-bottom: 10px;
+
+            input[type="text"], input[type="password"], button {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            textarea {
+                height: 288px;
+            }
+        }
+
+        @media #{$sm-screen} {
+            float: none;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+    }
+
+    .tdm-form-aside {
+        float: right;
+        width: 50%;
+        box-sizing: border-box;
+
+        .tdm-form-preview {
+            width: 97%;
+            height: 320px;
+            margin: 0px auto;
+            padding: 16px;
+            box-sizing: border-box;
+            overflow: auto;
+            border: 2px solid $page-text;
+            @include border-radius(10px);
+        }
+
+        ul {
+            margin: 32px;
+        }
+
+        p {
+            margin: 16px 32px;
+
+            @media #{$sm-screen} {
+                padding: 16px;
+            }
+        }
+
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        @media #{$sm-screen} {
+            float: none;
+            width: 100%;
+        }
+    }
+}

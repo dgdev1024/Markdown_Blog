@@ -1,0 +1,39 @@
+<div class="tdm-form">
+    <form (submit)="onSubmit($event)">
+        <div class="tdm-form-main">
+            <span class="tdm-form-heading">
+                Log In To Your Account
+            </span>
+            <div class="tdm-form-element">
+                <label for="emailAddress">Email Address:</label>
+                <input  name="emailAddress"
+                        type="text"
+                        [(ngModel)]="emailAddress" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="password">Password:</label>
+                <input  name="password"
+                        type="password"
+                        [(ngModel)]="password" />
+            </div>
+            <div class="tdm-form-element">
+                <button type="submit">Log In</button>
+            </div>
+        </div>
+    </form>
+    <div class="tdm-form-aside">
+        <span class="tdm-form-heading">
+            Don't Have an Account?
+        </span>
+        <p>
+            <a routerLink="/user/register">Click here</a> to register an account and start writing blogs!
+        </p>
+        <span class="tdm-form-heading">
+            Forgot your Password?
+        </span>
+        <p>
+            <a routerLink="/user/requestPasswordReset">Click here</a> to request a password reset token so you
+            can change your password.
+        </p>
+    </div>
+</div>

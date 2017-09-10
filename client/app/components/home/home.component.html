@@ -1,0 +1,98 @@
+<div class="tdm-intro-bg">
+  <div class="tdm-intro-caption">
+      <span class="tdm-intro-heading">
+          Something on Your Mind?
+      </span>
+      <span class="tdm-intro-subheading">
+          Mark it Down!
+      </span>
+      <a routerLink="/user/register" class="tdm-intro-button">Sign Up...</a>
+      <a routerLink="/user/login" class="tdm-intro-button">...or Log In</a>
+  </div>
+</div>
+
+<div class="tdm-about">
+    <span class="tdm-about-heading">
+        What Is TDM?
+    </span>
+    <div class="tdm-about-panes">
+        <div class="tdm-about-pane">
+            <span class="tdm-about-subheading">
+                A Place to Learn
+            </span>
+            <p>
+                You can read about anything you wish, from opinions about the news of the day to
+                the new features of your favorite web development technology, right here on TDM.
+            </p>
+        </div>
+        <div class="tdm-about-pane">
+            <span class="tdm-about-subheading">
+                A Place to Write
+            </span>
+            <p>
+                You can write about anything you wish, as well. TDM supports formatting using Github-style
+                Markdown syntax, so you can make your blogs look good, too!
+            </p>
+        </div>
+        <div class="tdm-about-pane">
+            <span class="tdm-about-subheading">
+                A Place to Express
+            </span>
+            <p>
+                You can let others know what you think about the blogs you read by leaving a rating and a comment.
+                You can also subscribe to blog authors to keep track of the blogs that they release.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="tdm-taste">
+    <span class="tdm-taste-heading">
+        Check These Out...
+    </span>
+    <div class="tdm-taste-panes">
+        <div *ngIf="hotFetching === false; else fetchingHotBlogs">
+            <div *ngIf="hotError === ''; else fetchingHotBlogsError">
+                <div *ngFor="let blog of hotBlogs" class="tdm-taste-pane">
+                    <span class="tdm-taste-subheading">
+                        <a routerLink="/blog/view/{{ blog.id }}">
+                            {{ blog.title }}
+                        </a>
+                    </span>
+                    <p>
+                        By: {{ blog.author }}<br />
+                        Rating: {{ blog.rating }} / 5 ({{ blog.ratingCount }} ratings)<br />
+                        {{ blog.commentCount }} comments
+                    </p>
+                </div>
+            </div>
+            <ng-template #fetchingHotBlogsError>
+                <p class="tdm-taste-notice">
+                    <em>{{ hotError }}</em>
+                </p>
+            </ng-template>
+        </div>
+        <ng-template #fetchingHotBlogs>
+            <p class="tdm-taste-notice">
+                <em>Fetching Hot Blogs. Please Wait...</em>
+            </p>
+        </ng-template>
+    </div>
+</div>
+
+<div class="tdm-home-search">
+    <span class="tdm-home-search-heading">
+        ...Or Find Your Own
+    </span>
+    <div class="tdm-home-search-bar">
+        <form (submit)="onSearchSubmit($event)">
+            <input  type="text"
+                    class="tdm-home-search-input"
+                    name="searchQuery"
+                    [(ngModel)]="blogService.searchQuery"
+                    placeholder="Search For Blogs" />
+            <button type="submit"
+                    class="tdm-home-search-button">Search</button>
+        </form>
+    </div>
+</div>

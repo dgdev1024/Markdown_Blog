@@ -31,7 +31,7 @@ router.post('/create', authUtility.jwtAuthentication, (req, res) => {
 
 // GET: Fetches a blog.
 router.get('/view/:blogId', (req, res) => {
-    blogController.fetchBlog(req.params.blogId, (err, ok) => {
+    blogController.fetchBlog(req.params.blogId, req.query.as, (err, ok) => {
         if (err) { return res.status(err.status).json({ error: err }) }
         return res.status(200).json(ok);
     });

@@ -1,0 +1,129 @@
+.tdm-topbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: $topbar-bg;
+    color: $topbar-text;
+    border-bottom: 2px solid $topbar-text;
+    z-index: 2;
+
+    .tdm-topbar-link {
+        display: inline-block;
+        color: $topbar-text;
+        @include transition(0.1s);
+        
+        &:hover {
+            text-decoration: none;
+            background-color: $topbar-bg-hover;
+            cursor: pointer;
+        }
+    }
+
+    .tdm-topbar-brand {
+        float: left;
+        padding: 3px;
+        font-family: $special-font;
+        font-variant: small-caps;
+        font-size: 22px;
+
+        @media #{$xs-screen} {
+            display: none;
+        }
+    }
+
+    .tdm-topbar-search {
+        float: left; 
+        padding: 7px;
+
+        @media #{$sm-screen} {
+            display: none;
+
+            &.tdm-topbar-shown {
+                display: block;
+                float: none;
+                clear: both;
+            }
+        }
+
+        .tdm-topbar-input {
+            display: inline-block;
+            margin-right: 2px;
+            padding: 4px;
+            font-size: 12px;
+            background-color: $topbar-bg;
+            color: $topbar-text;
+            border: 2px solid $topbar-text;
+            @include border-radius(8px);
+            @include transition(0.1s);
+
+            @media #{$sm-screen} {
+                margin: 4px 0px;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            &:hover {
+                background-color: $topbar-bg-hover;
+            }
+        }
+
+        .tdm-topbar-button {
+            display: inline-block;
+            margin-left: 2px;
+            padding: 4px 6px;
+            font-size: 12px;
+            background-color: $topbar-bg;
+            color: $topbar-text;
+            border: 2px solid $topbar-text;
+            @include border-radius(8px);
+            @include transition(0.1s);
+            
+            @media #{$sm-screen} {
+                margin: 4px 0px;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            &:hover {
+                background-color: $topbar-bg-hover;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .tdm-topbar-menu-icon {
+        display: none;
+        font-size: 18px !important;
+
+        @media #{$md-screen} {
+            display: block;
+            float: right;
+            padding: 10px;
+        }
+    }
+
+    .tdm-topbar-menu {
+        float: right;
+
+        @media #{$md-screen} {
+            display: none;
+            
+            &.tdm-topbar-shown {
+                display: block;
+                float: none;
+                clear: both;
+            }
+        }
+
+        .tdm-topbar-link {
+            padding: 10px 4px;
+
+            @media #{$md-screen} {
+                display: block;
+            }
+        }
+    }
+}

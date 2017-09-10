@@ -1,0 +1,146 @@
+<div class="tdm-blog">
+  <div *ngIf="blogFetching === false; else fetchingBlog">
+    <div *ngIf="blogError === ''; else fetchingBlogError">
+      <span class="tdm-blog-title">{{ blog.title }}</span>
+      <div class="tdm-blog-details">
+        <p class="tdm-blog-detail">
+          By: <a routerLink="/user/profile/{{ blog.authorId }}">{{ blog.authorName }}</a> 
+          <span *ngIf="loginService.checkToken() === true && userId !== blog.authorId">
+            <br />
+            (
+            <a href="#" (click)="toggleSubscribe($event)">
+              {{ blogAuthorSubbed ? 'Unsubscribe' : 'Subscribe' }}
+            </a>
+            )
+          </span>
+        </p>
+        <p class="tdm-blog-detail">
+          On: {{ blog.postDate }}
+        </p>
+        <p class="tdm-blog-detail">
+          Rating: {{ blog.averageRating }} / 5 ({{ blog.ratingCount }} ratings)
+        </p>
+        <p class="tdm-blog-detail">
+          {{ blog.commentCount }} comment(s)
+        </p>
+      </div>
+      <div *ngIf="loginService.checkToken() === true && userId === blog.authorId" class="tdm-blog-details">
+        <p class="tdm-blog-detail">Author Control Panel:</p>
+        <p class="tdm-blog-detail">
+          <a href="javascript:void(0)" (click)="onEditBlogClicked()">
+            <i class="fa fa-pencil"></i> Edit Blog
+          </a>
+        </p>
+        <p class="tdm-blog-detail">
+          <a href="javascript:void(0)" (click)="onDeleteBlogClicked()">
+            <i class="fa fa-trash"></i> Delete Blog
+          </a>
+        </p>
+      </div>
+      <div class="tdm-blog-body tdm-markdown" [innerHTML]="blogBodyParsed">
+      </div>
+      <div *ngIf="loginService.checkToken() === true && userId !== blog.authorId" class="tdm-blog-rating">
+        <span class="tdm-blog-subheading">Rate This Blog</span>
+        <p>
+          {{
+            blog.hasRated ?
+              'You have rated this blog.' :
+              'Click on one of the rating buttons below to rate this blog.'
+          }}
+        </p>
+        <p *ngIf="blog.hasRated === false">
+          <button (click)="onRatingClicked(1)" id="bad" title="I strongly disagree with this blog.">1</button>
+          <button (click)="onRatingClicked(2)" id="poor" title="I disagree with this blog.">2</button>
+          <button (click)="onRatingClicked(3)" id="fair" title="I neither agree nor disagree with this blog.">3</button>
+          <button (click)="onRatingClicked(4)" id="good" title="I agree with this blog.">4</button>
+          <button (click)="onRatingClicked(5)" id="great" title="I strongly agree with this blog.">5</button>
+        </p>
+      </div>
+      <div class="tdm-blog-comments">
+        <div *ngIf="commentsFetching === false || comments.length > 0; else fetchingComments">
+          <div *ngIf="commentsError === ''; else fetchingCommentsError">
+            <span class="tdm-blog-subheading">Comments</span>
+            <div *ngIf="loginService.checkToken() === true" class="tdm-blog-post-comment">
+              <form (submit)="onCommentSubmit($event)">
+                  <label for="comment-input">Enter a Comment:</label>
+                  <textarea class="tdm-form-input tdm-form-textarea"
+                            id="comment-input"
+                            name="commentInput"
+                            [(ngModel)]="commentInput"></textarea>
+                  <button type="submit">Post Comment</button>
+              </form>
+            </div>
+            <div *ngIf="comments.length > 0; else noComments">
+              <div class="tdm-blog-comment-pagination">
+                <button [disabled]="commentsPage === 0" (click)="onCommentsPreviousClicked()"><i class="fa fa-chevron-left"></i></button>
+                <span>Page {{ commentsPage + 1 }}</span>
+                <button [disabled]="commentsLastPage" (click)="onCommentsNextClicked()"><i class="fa fa-chevron-right"></i></button>
+              </div>
+              <div *ngFor="let comment of comments" class="tdm-blog-comment">
+                <p>
+                  <strong>
+                    <a routerLink="/user/profile/{{ comment.authorId }}">{{ comment.author }}</a>
+                  </strong>
+                  <em>
+                    on {{ comment.postDate }}
+                  </em><br />
+                  {{ comment.body }}
+                </p>
+                <p>
+                  <a href="javascript:void(0)" (click)="onDeleteCommentClicked($event, comment._id)">
+                    <i class="fa fa-trash"></i> Delete Comment
+                  </a>
+                </p>
+              </div>
+            </div>
+            <ng-template #noComments>
+              <div class="tdm-blog-notice">
+                <p>
+                  <em>
+                    <span *ngIf="loginService.checkToken() === false; else beFirstPost">No Comments, Yet.</span>
+                    <ng-template #beFirstPost>Be The First to Post a Comment!</ng-template>
+                  </em>
+                </p>
+              </div>
+            </ng-template>
+          </div>
+          <ng-template #fetchingCommentsError>
+            <div class="tdm-blog-notice">
+                <p>
+                  <em>
+                    {{ commentsError }}
+                  </em>
+                </p>
+              </div>
+          </ng-template>
+        </div>
+        <ng-template #fetchingComments>
+          <div class="tdm-blog-notice">
+            <p>
+              <em>
+                Fetching Comments. Please Wait...
+              </em>
+            </p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <ng-template #fetchingBlogError>
+      <div class="tdm-blog-notice">
+        <span class="tdm-blog-notice-heading">Whoops!</span>
+        <p>
+          <em>
+            We could not fetch the blog you requested. Sorry about that.<br />
+            Error: {{ blogError }}
+          </em>
+        </p>
+      </div>
+    </ng-template>
+  </div>
+  <ng-template #fetchingBlog>
+    <div class="tdm-blog-notice">
+      <span class="tdm-blog-notice-heading">Please Wait...</span>
+      <p><em>We are fetching your blog and will have it shortly.</em></p>
+    </div>
+  </ng-template>
+</div>

@@ -176,5 +176,16 @@ router.put('/unsubscribe/:targetId', authUtility.jwtAuthentication, (req, res) =
     });
 });
 
+// GET: Is a user subscribed to another?
+router.get('/isSubscribed', (req, res) => {
+    userController.isSubscribed({
+        userId: req.query.userId,
+        targetId: req.query.targetId
+    }, (err, ok) => {
+        if (err) { return res.status(err.status).json({ error: err }) }
+        return res.status(200).json(ok);
+    });
+});
+
 // Exports
 module.exports = router;

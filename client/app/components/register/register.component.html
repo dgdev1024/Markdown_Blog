@@ -1,0 +1,54 @@
+<div class="tdm-form">
+    <form (submit)="onSubmit($event)">
+        <div class="tdm-form-main">
+            <span class="tdm-form-heading">
+                Register a New Account
+            </span>
+            <div class="tdm-form-element">
+                <label for="firstName">First Name:</label>
+                <input  name="firstName"
+                        type="text"
+                        [(ngModel)]="firstName" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="lastName">Last Name:</label>
+                <input  name="lastName"
+                        type="text"
+                        [(ngModel)]="lastName" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="emailAddress">Email Address:</label>
+                <input  name="emailAddress"
+                        type="text"
+                        [(ngModel)]="emailAddress" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="password">Create a Password:</label>
+                <input  name="password"
+                        type="password"
+                        [(ngModel)]="password" />
+            </div>
+            <div class="tdm-form-element">
+                <label for="confirm">Confirm Password:</label>
+                <input  name="confirm"
+                        type="password"
+                        [(ngModel)]="confirm" />
+            </div>
+            <div class="tdm-form-element">
+                <button type="submit">Register</button>
+            </div>
+        </div>
+    </form>
+    <div class="tdm-form-aside">
+        <span class="tdm-form-heading">
+            Registration Instructions
+        </span>
+        <ul>
+            <li>All fields are required.</li>
+            <li>Your first and last name shall not contain any numbers or symbols.</li>
+            <li>Your email address shall be in the form 'address@domain' (example: dgdev1024@gmail.com).</li>
+            <li>Your password must be between 8 and 20 characters in length.</li>
+            <li>Your password must contain at least one capital letter, one number, and one symbol.</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,218 @@
+.tdm-blog {
+    width: 95%;
+    max-width: 1024px;
+    overflow: auto;
+    margin: 48px auto 16px auto;
+
+    .tdm-blog-title {
+        display: block;
+        padding: 8px 0px;
+        font-family: $special-font;
+        font-variant: small-caps;
+        font-size: 48px;
+        text-align: center;
+
+        @media #{$md-screen} {
+            font-size: 32px;
+        }
+
+        @media #{$sm-screen} {
+            text-align: left;
+        }
+    }
+
+    .tdm-blog-subheading {
+        display: block;
+        margin-bottom: 16px;
+        padding: 8px 0px;
+        font-family: $special-font;
+        font-variant: small-caps;
+        font-size: 36px;
+        text-align: center;
+        border-bottom: 1px solid $page-text;
+
+        @media #{$md-screen} {
+            font-size: 28px;
+        }
+
+        @media #{$sm-screen} {
+            text-align: left;
+        }
+    }
+
+    .tdm-blog-details {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid $page-text;
+
+        @media #{$sm-screen} {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: none;
+        }
+
+        .tdm-blog-detail {
+            float: left;
+            width: 25%;
+            text-align: center;
+
+            @media #{$sm-screen} {
+                float: none;
+                width: 100%;
+                text-align: left;
+            }
+        }
+
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+    }
+
+    .tdm-blog-body {
+        max-width: 960px;
+        margin: 32px auto;
+    }
+
+    .tdm-blog-rating {
+        p {
+            text-align: center;
+
+            @media #{$sm-screen} {
+                text-align: left;
+            }
+        }
+
+        button {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            margin: 16px 4px;
+            @include border-radius(50%);
+
+            @media #{$sm-screen} {
+                width: 40px;
+                height: 40px;
+                margin: 8px 2px;
+            }
+
+            &#bad {
+                color: darkred;
+                background-color: pink;
+
+                &:hover {
+                    color: pink;
+                    background-color: darkred;
+                }
+            }
+
+            &#poor {
+                color: brown;
+                background-color: orange;
+
+                &:hover {
+                    color: orange;
+                    background-color: brown;
+                }
+            }
+
+            &#fair {
+                color: #513A00;
+                background-color: yellow;
+
+                &:hover {
+                    color: yellow;
+                    background-color: #513A00;
+                }
+            }
+
+            &#good {
+                color: darkgreen;
+                background-color: lightgreen;
+
+                &:hover {
+                    color: lightgreen;
+                    background-color: darkgreen;
+                }
+            }
+
+            &#great {
+                color: darkblue;
+                background-color: lightblue;
+
+                &:hover {
+                    color: lightblue;
+                    background-color: darkblue;
+                }
+            }
+        }
+    }
+
+    .tdm-blog-comments {
+        max-width: 960px;
+        margin: 0px auto;
+
+        .tdm-blog-post-comment {
+            margin: 8px 0px;
+            border-bottom: 1px solid $page-text;
+
+            textarea {
+                height: 128px;
+            }
+
+            button {
+                margin: 10px auto;
+
+                @media #{$sm-screen} {
+                    width: 100%;
+                }
+            }
+        }
+
+        .tdm-blog-comment {
+            max-width: 860px;
+            margin: 24px auto;
+
+            p {
+                margin-bottom: 12px;
+            }
+        }
+
+        .tdm-blog-comment-pagination {
+            text-align: center;
+
+            button {
+                display: inline-block;
+                margin: 8px;
+            }
+        }
+    }
+
+    .tdm-blog-notice {
+        .tdm-blog-notice-heading {
+            display: block;
+            padding: 8px 0px;
+            font-family: $special-font;
+            font-variant: small-caps;
+            font-size: 32px;
+            text-align: center;
+    
+            @media #{$md-screen} {
+                font-size: 24px;
+            }
+    
+            @media #{$sm-screen} {
+                text-align: left;
+            }
+        }
+
+        p {
+            text-align: center;
+
+            @media #{$sm-screen} {
+                text-align: left;
+            }
+        }
+    }
+}

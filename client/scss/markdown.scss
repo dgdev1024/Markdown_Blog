@@ -1,0 +1,60 @@
+.tdm-markdown {
+    // Heading Alignment
+    h1, h2, h3, h4, h5, h6 {
+        margin: 16px 8px !important;
+        font-family: $special-font;
+        font-variant: small-caps;
+        font-weight: normal;
+        text-align: center;
+        line-height: 1.1em;
+
+        @media #{$sm-screen} {
+            text-align: left;
+        }
+    }
+
+    // Heading Fonts
+    h1 { font-size: 42px; @media #{$md-screen} { font-size: 32px; }}
+    h2 { font-size: 38px; @media #{$md-screen} { font-size: 28px; }}
+    h3 { font-size: 34px; @media #{$md-screen} { font-size: 24px; }}
+    h4 { font-size: 30px; @media #{$md-screen} { font-size: 20px; }}
+    h5 { font-size: 26px; @media #{$md-screen} { font-size: 18px; }}
+    h6 { font-size: 22px; @media #{$md-screen} { font-size: 16px; }}
+
+    // Paragraphs
+    p {
+        margin: 8px 8px !important;
+        line-height: 1.5em;
+    }
+
+    // List Padding
+    ul, ol {
+        margin: 32px !important;
+        line-height: 1.5em;
+
+        li {
+            margin: 2px 0px;
+        }
+    }
+
+    // Code
+    pre, code {
+        margin: 16px !important;
+        overflow: auto;
+    }
+
+    pre {
+        padding: 8px;
+        box-sizing: border-box;
+        background-color: white;
+        border: 1px solid $page-text;
+        @include border-radius(4px);
+    }
+
+    // Block Quotes
+    blockquote {
+        margin: 16px !important;
+        padding-left: 16px;
+        border-left: 2px solid $page-text;
+    }
+}

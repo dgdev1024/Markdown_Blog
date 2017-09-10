@@ -1,0 +1,27 @@
+<div class="tdm-topbar" (mouseleave)="resetMenuToggle()">
+  <a routerLink='/' class="tdm-topbar-link tdm-topbar-brand">
+    The Daily <strong>MARKDOWN</strong>
+  </a>
+  <div (click)="toggleMenu()" class="tdm-topbar-link tdm-topbar-menu-icon">
+    <i class="fa fa-navicon"></i>
+  </div>
+  <div class="tdm-topbar-search {{ menuShown ? 'tdm-topbar-shown' : '' }}">
+    <form (submit)="onSearchSubmit($event); resetMenuToggle();">
+      <input type="text" class="tdm-topbar-input" name="searchQuery" [(ngModel)]="blogService.searchQuery" placeholder="Search for Blogs"
+      />
+      <button type="submit" class="tdm-topbar-button">Search</button>
+    </form>
+  </div>
+  <div class="tdm-topbar-menu {{ menuShown ? 'tdm-topbar-shown' : '' }}">
+    <div *ngIf="loginService.checkToken() === true; else notLoggedIn">
+      <a routerLink="/user/dashboard" (click)="resetMenuToggle()" class="tdm-topbar-link">Dashboard</a>
+      <a routerLink="/blog/editor" (click)="resetMenuToggle()" class="tdm-topbar-link">Create Blog</a>
+      <a routerLink="/user/logout" (click)="resetMenuToggle()" class="tdm-topbar-link">Log Out</a>
+    </div>
+    <ng-template #notLoggedIn>
+      <a routerLink="/" (click)="resetMenuToggle()" class="tdm-topbar-link">Home</a>
+      <a routerLink="/user/login" (click)="resetMenuToggle()" class="tdm-topbar-link">Log In</a>
+      <a routerLink="/user/register" (click)="resetMenuToggle()" class="tdm-topbar-link">Register</a>
+    </ng-template>
+  </div>
+</div>

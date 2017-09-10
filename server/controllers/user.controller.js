@@ -229,7 +229,6 @@ module.exports = {
 
             // Return the subscriptions.
             return callback(null, {
-                all: user.subscriptions.map(v => v.subscriberId),
                 subscriptions,
                 lastPage: end >= user.subscriptions.length
             });
@@ -452,6 +451,74 @@ module.exports = {
             return callback(null, {
                 message: 'Subscription has been removed.'
             });
+        });
+    },
+
+    ///
+    /// @fn     isSubscribed
+    /// @brief  Check to see if a user is subscribed to another.
+    ///
+    /// Details: userId, targetId
+    ///
+    /// @param {object} details The details object.
+    /// @param {function} callback Called when this function finishes.
+    ///
+    isSubscribed (details, callback) {
+        waterfall([
+            // Find the inquiring user, first.
+            (next) => {
+                userModel.findById(details.userId, (err, user) => {
+                    if (err) {
+                        return next({
+                            status: 500,
+                            message: 'An error has occured while verifying your user ID. Try again later.'
+                        });
+                    }
+
+                    if (!user || user.verified === false) {
+                        return next({
+                            status: 404,
+                            message: 'No verified inquiring user was found with this ID.'
+                        });
+                    }
+
+                    return next(null, user.subscriptions.map(v => v.subscriberId));
+                });
+            },
+
+            // Check to see if the target user is present, too.
+            (subIds, next) => {
+                userModel.findById(details.targetId, (err, user) => {
+                    if (err) {
+                        return next({
+                            status: 500,
+                            message: 'An error has occured while verifying the target user\'s ID. Try again later.'
+                        });
+                    }
+
+                    if (!user || user.verified === false) {
+                        return next({
+                            status: 404,
+                            message: 'No verified target user was found with this ID.'
+                        });
+                    }
+
+                    return next(null, subIds);
+                });
+            },
+
+            // Check to see if this target user's ID is present in your subscription list.
+            (subIds, next) => {
+                return next(null, {
+                    subscribed: subIds.indexOf(details.targetId) !== -1
+                });
+            }
+        ], (err, result) => {
+            if (err) {
+                return callback(err);
+            }
+
+            return callback(null, result);
         });
     }
 };
