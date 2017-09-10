@@ -85,19 +85,27 @@ export class ProfileComponent implements OnInit {
         const { subscriptions, lastPage } = response.json();
 
         if (subscriptions.length === 0 && this.subsPage > 0) {
-          this.fetchUserSubs(this.subsPage - 1);
+          this.fetchUserSubs(0);
         }
 
         this.subs = subscriptions;
         this.subsLastPage = lastPage;
         this.subsFetching = false;
+        this.locationService.replaceState(
+          `/user/profile/${this.userId}`,
+          `subsPage=${this.subsPage}&blogsPage=${this.blogsPage}`
+        );
       },
 
       error => {
-        const { message } = error.json().error;
+        const { status, message } = error.json().error;
 
-        this.subsError = message;
-        this.subsFetching = false;
+        if (status === 404 && this.subsPage > 0) {
+          this.fetchUserSubs(0);
+        } else {
+          this.subsError = message;
+          this.subsFetching = false;
+        }
       }
     );
   }
@@ -112,19 +120,27 @@ export class ProfileComponent implements OnInit {
         const { blogs, lastPage } = response.json();
 
         if (blogs.length === 0 && this.blogsPage > 0) {
-          this.fetchUserBlogs(this.blogsPage - 1);
+          this.fetchUserBlogs(0);
         }
 
         this.blogs = blogs;
         this.blogsLastPage = lastPage;
         this.blogsFetching = false;
+        this.locationService.replaceState(
+          `/user/profile/${this.userId}`,
+          `subsPage=${this.subsPage}&blogsPage=${this.blogsPage}`
+        );
       },
 
       error => {
-        const { message } = error.json().error;
+        const { status, message } = error.json().error;
 
-        this.blogsError = message;
-        this.blogsFetching = false;
+        if (status === 404 && this.blogsPage > 0) {
+          this.fetchUserBlogs(0);
+        } else {
+          this.blogsError = message;
+          this.blogsFetching = false;
+        }
       }
     );
   }

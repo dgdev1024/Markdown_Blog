@@ -22,17 +22,30 @@ import { PwResetAuthComponent } from './components/pw-reset-auth/pw-reset-auth.c
 import { PwResetComponent } from './components/pw-reset/pw-reset.component';
 import { BlogEditorComponent } from './components/blog-editor/blog-editor.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SearchComponent } from './components/search/search.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    canActivate: [NoLoginGuard],
     component: HomeComponent
+  },
+  {
+    path: 'user/dashboard',
+    canActivate: [LoginGuard],
+    component: DashboardComponent
   },
   {
     path: 'user/login',
     canActivate: [NoLoginGuard],
     component: LoginComponent
+  },
+  {
+    path: 'user/logout',
+    component: LogoutComponent
   },
   {
     path: 'user/register',
@@ -60,6 +73,10 @@ const routes: Routes = [
     component: ProfileComponent
   },
   {
+    path: 'blog/search',
+    component: SearchComponent
+  },
+  {
     path: 'blog/view/:blogId',
     component: BlogComponent
   },
@@ -73,7 +90,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, 
-    FlashComponent, TopbarComponent, HomeComponent, LoginComponent, RegisterComponent, VerifyComponent, BlogComponent, PwResetRequestComponent, PwResetAuthComponent, PwResetComponent, BlogEditorComponent, ProfileComponent
+    FlashComponent, TopbarComponent, HomeComponent, LoginComponent, RegisterComponent, VerifyComponent, BlogComponent, PwResetRequestComponent, PwResetAuthComponent, PwResetComponent, BlogEditorComponent, ProfileComponent, LogoutComponent, DashboardComponent, SearchComponent
   ],
   imports: [
     BrowserModule,

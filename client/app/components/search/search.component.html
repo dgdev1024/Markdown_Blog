@@ -1,0 +1,40 @@
+<div class="tdm-search">
+  <span class="tdm-search-heading">
+    {{
+      query === '' ?
+        'Recent Blogs' :
+        'Search Results'
+    }}
+  </span>
+  <div class="tdm-search-panes">
+    <div *ngIf="fetching === false || blogs.length > 0; else searchFetching">
+      <div *ngIf="error === ''; else searchError">
+        <div class="tdm-search-pagination">
+          <button [disabled]="page === 0" (click)="onPreviousClicked()"><i class="fa fa-chevron-left"></i></button>
+          <span>Page {{ page + 1 }}</span>
+          <button [disabled]="lastPage" (click)="onNextClicked()"><i class="fa fa-chevron-right"></i></button>
+        </div>
+        <div>
+          <div *ngFor="let blog of blogs" class="tdm-search-pane">
+            <a routerLink="/blog/view/{{ blog.blogId }}">
+              <span class="tdm-search-subheading">
+                {{ blog.title }}
+              </span>
+            </a>
+            <p>
+              Author: <a routerLink="/user/profile/{{ blog.authorId }}">{{ blog.author }}</a><br />
+              Rating: {{ blog.rating }} / 5 ({{ blog.ratingCount }} ratings)<br />
+              {{ blog.commentCount }} comments
+            </p>
+          </div>
+        </div>
+      </div>
+      <ng-template #searchError>
+        <p><em>{{ error }}</em></p>
+      </ng-template>
+    </div>
+    <ng-template #searchFetching>
+      <p><em>Fetching results. Please wait...</em></p>
+    </ng-template>
+  </div>
+</div>

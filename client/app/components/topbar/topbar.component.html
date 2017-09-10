@@ -7,9 +7,19 @@
   </div>
   <div class="tdm-topbar-search {{ menuShown ? 'tdm-topbar-shown' : '' }}">
     <form (submit)="onSearchSubmit($event); resetMenuToggle();">
-      <input type="text" class="tdm-topbar-input" name="searchQuery" [(ngModel)]="blogService.searchQuery" placeholder="Search for Blogs"
-      />
-      <button type="submit" class="tdm-topbar-button">Search</button>
+      <input type="text" 
+             class="tdm-topbar-input" 
+             name="searchQuery" 
+             [(ngModel)]="blogService.searchQuery" 
+             placeholder="Search for Blogs"
+             title="Leave the search blog blank to search for all of the most recent blogs!" />
+      <button type="submit" class="tdm-topbar-button">
+        {{
+          blogService.searchQuery === '' ?
+            'Recent Blogs' :
+            'Search'
+        }}
+      </button>
     </form>
   </div>
   <div class="tdm-topbar-menu {{ menuShown ? 'tdm-topbar-shown' : '' }}">

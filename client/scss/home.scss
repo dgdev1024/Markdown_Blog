@@ -163,6 +163,15 @@
         }
     }
 
+    .tdm-taste-pagination {
+        text-align: center;
+
+        button {
+            display: inline-block;
+            margin: 8px;
+        }
+    }
+
     .tdm-taste-panes {
         width: 95%;
         max-width: 1024px;
@@ -175,7 +184,7 @@
 
         .tdm-taste-pane {
             float: left;
-            width: 31.33%;
+            width: 48%;
             margin: 8px 1%;
             padding: 8px;
             box-sizing: border-box;
@@ -190,7 +199,7 @@
                 margin: 8px auto;
             }
 
-            &:nth-child(3n+1) {
+            &:nth-child(2n+1) {
                 content: "";
                 display: block;
                 clear: both;

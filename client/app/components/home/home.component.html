@@ -48,22 +48,29 @@
 
 <div class="tdm-taste">
     <span class="tdm-taste-heading">
-        Check These Out...
+        Check Out The Hot Ones...
     </span>
     <div class="tdm-taste-panes">
         <div *ngIf="hotFetching === false; else fetchingHotBlogs">
             <div *ngIf="hotError === ''; else fetchingHotBlogsError">
-                <div *ngFor="let blog of hotBlogs" class="tdm-taste-pane">
-                    <span class="tdm-taste-subheading">
-                        <a routerLink="/blog/view/{{ blog.id }}">
-                            {{ blog.title }}
-                        </a>
-                    </span>
-                    <p>
-                        By: {{ blog.author }}<br />
-                        Rating: {{ blog.rating }} / 5 ({{ blog.ratingCount }} ratings)<br />
-                        {{ blog.commentCount }} comments
-                    </p>
+                <div class="tdm-taste-pagination">
+                    <button [disabled]="hotPage === 0" (click)="onPreviousClicked()"><i class="fa fa-chevron-left"></i></button>
+                    <span>Page {{ hotPage + 1 }}</span>
+                    <button [disabled]="hotLastPage" (click)="onNextClicked()"><i class="fa fa-chevron-right"></i></button>
+                </div>
+                <div>
+                    <div *ngFor="let blog of hotBlogs" class="tdm-taste-pane">
+                        <span class="tdm-taste-subheading">
+                            <a routerLink="/blog/view/{{ blog.id }}">
+                                {{ blog.title }}
+                            </a>
+                        </span>
+                        <p>
+                            By: <a routerLink="/user/profile/{{ blog.authorId }}">{{ blog.author }}</a><br />
+                            Rating: {{ blog.rating }} / 5 ({{ blog.ratingCount }} ratings)<br />
+                            {{ blog.commentCount }} comments
+                        </p>
+                    </div>
                 </div>
             </div>
             <ng-template #fetchingHotBlogsError>
@@ -90,9 +97,14 @@
                     class="tdm-home-search-input"
                     name="searchQuery"
                     [(ngModel)]="blogService.searchQuery"
-                    placeholder="Search For Blogs" />
-            <button type="submit"
-                    class="tdm-home-search-button">Search</button>
+                    placeholder="Search For Blogs." />
+            <button type="submit" class="tdm-home-search-button">
+                {{
+                    blogService.searchQuery === '' ?
+                        'Recent Blogs' :
+                        'Search'
+                }}
+            </button>
         </form>
     </div>
 </div>
