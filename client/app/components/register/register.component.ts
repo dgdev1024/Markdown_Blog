@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FlashService, FlashType } from '../../services/flash.service';
@@ -18,12 +19,14 @@ export class RegisterComponent implements OnInit {
   private confirm: string = '';
 
   constructor(
+    private titleService: Title,
     private routerService: Router,
     private userService: UserService,
     private flashService: FlashService
   ) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Register a New Account - The Daily Markdown');
   }
 
   onSubmit (ev) {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
@@ -55,6 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(
+    private titleService: Title,
     private locationService: Location,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,
@@ -63,6 +65,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.fetchHotBlogs();
+    this.titleService.setTitle('The Daily Markdown');
   }
 
   onPreviousClicked () {

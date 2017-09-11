@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { BlogService } from '../../services/blog.service';
@@ -24,6 +24,7 @@ export class BlogEditorComponent implements OnInit, OnDestroy {
   private parsed: SafeHtml = null;
 
   constructor(
+    private titleService: Title,
     private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,
@@ -61,6 +62,7 @@ export class BlogEditorComponent implements OnInit, OnDestroy {
             this.body = body;
             this.keywords = keywords;
             this.parsed = this.domSanitizer.bypassSecurityTrustHtml(marked(this.body, { sanitize: true }));
+            this.titleService.setTitle('Edit Blog - The Daily Markdown');
           },
 
           error => {
@@ -72,6 +74,7 @@ export class BlogEditorComponent implements OnInit, OnDestroy {
         );
       }
       else {
+        this.titleService.setTitle('Create Blog - The Daily Markdown');
         const draftString = localStorage.getItem(TDM_NEW_BLOG_DRAFT);
         if (draftString) {
           const draft = JSON.parse(draftString);

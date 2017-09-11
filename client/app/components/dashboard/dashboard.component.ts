@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.service';
@@ -117,6 +118,7 @@ export class DashboardComponent implements OnInit {
   }
 
   constructor(
+    private titleService: Title,
     private locationService: Location,
     private routerService: Router,
     private activatedRoute: ActivatedRoute,
@@ -139,6 +141,8 @@ export class DashboardComponent implements OnInit {
       this.fetchSubBlogs(this.subBlogsPage);
       this.fetchHotBlogs(this.hotBlogsPage);
     });
+
+    this.titleService.setTitle('User Dashboard - The Daily Markdown');
   }
 
   onPreviousClicked (list) {

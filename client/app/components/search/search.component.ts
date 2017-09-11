@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
@@ -23,6 +24,7 @@ export class SearchComponent implements OnInit {
     this.page = page;
 
     if (this.query === '') {
+      this.titleService.setTitle('Recent Blogs - The Daily Markdown');
       this.blogService.fetchRecentBlogs(this.page).subscribe(
         response => {
           const { blogs, lastPage } = response.json();
@@ -56,6 +58,7 @@ export class SearchComponent implements OnInit {
         }
       );
     } else {
+      this.titleService.setTitle('Search Results - The Daily Markdown');
       this.blogService.fetchBlogsByKeyword(this.query, this.page).subscribe(
         response => {
           const { blogs, lastPage } = response.json();
@@ -90,6 +93,7 @@ export class SearchComponent implements OnInit {
   }
 
   constructor(
+    private titleService: Title,
     private locationService: Location,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,

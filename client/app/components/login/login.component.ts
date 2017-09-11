@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { FlashService, FlashType } from '../../services/flash.service';
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   private password: string = '';
 
   constructor(
+    private titleService: Title,
     private currentRoute: ActivatedRoute,
     private routerService: Router,
     private loginService: LoginService,
@@ -28,6 +30,8 @@ export class LoginComponent implements OnInit {
     this.currentRoute.queryParams.subscribe(params => {
       this.returnUrl = params['returnUrl'] || '/';
     });
+
+    this.titleService.setTitle('Login - The Daily Markdown');
   }
 
   onSubmit (ev) {

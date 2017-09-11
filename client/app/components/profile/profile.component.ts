@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.service';
@@ -55,6 +56,7 @@ export class ProfileComponent implements OnInit {
         this.userJoinDate = moment(profile.joinDate).format('MMMM Do, YYYY');
         this.userSubCount = profile.subscriptionCount;
         this.userBlogCount = profile.blogCount;
+        this.titleService.setTitle(`${profile.fullName}'s Profile - The Daily Markdown`);
 
         if (this.myId !== '') {
           this.userService.isUserSubscribed(this.myId, this.userId).subscribe(
@@ -71,6 +73,7 @@ export class ProfileComponent implements OnInit {
 
         this.userError = message;
         this.userFetching = false;
+        this.titleService.setTitle('Error Fetching Profile - The Daily Markdown');
       }
     );
   }
@@ -146,6 +149,7 @@ export class ProfileComponent implements OnInit {
   }
 
   constructor(
+    private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,
     private locationService: Location,

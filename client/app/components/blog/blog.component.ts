@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { UserService } from '../../services/user.service';
@@ -62,6 +62,7 @@ export class BlogComponent implements OnInit {
         this.blogBodyParsed = this.domSanitizer.bypassSecurityTrustHtml(marked(blog.body, { sanitize: true }));
         this.blog = blog;
         this.blogFetching = false;
+        this.titleService.setTitle(`${blog.title} - The Daily Markdown`);
       },
 
       error => {
@@ -69,6 +70,7 @@ export class BlogComponent implements OnInit {
 
         this.blogError = message;
         this.blogFetching = false;
+        this.titleService.setTitle('Error Fetching Blog - The Daily Markdown');
       }
     );
   }
@@ -106,6 +108,7 @@ export class BlogComponent implements OnInit {
   }
 
   constructor(
+    private titleService: Title,
     private domSanitizer: DomSanitizer,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,

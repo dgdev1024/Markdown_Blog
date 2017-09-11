@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FlashService, FlashType } from '../../services/flash.service';
@@ -15,6 +16,7 @@ export class PwResetAuthComponent implements OnInit {
   private authenticationCode: string = '';
 
   constructor(
+    private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private routerService: Router,
     private userService: UserService,
@@ -24,7 +26,9 @@ export class PwResetAuthComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.authenticationId = params['authenticateId'];
-    })
+    });
+
+    this.titleService.setTitle('Authenticate a Password Reset - The Daily Markdown');
   }
 
   onSubmit (ev) {
