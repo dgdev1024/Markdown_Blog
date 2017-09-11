@@ -15,15 +15,7 @@ const reportError = require('./utility/error').reportError;
 module.exports = () => {
     // Express and Middleware
     const app = express();
-    app.use(helmet({
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: [ "'self'" ],
-                styleSrc: [ "'self'", 'maxcdn.bootstrap.com', 'fonts.googleapis.com' ],
-                imgSrc: [ '*' ]
-            }
-        }
-    }));
+    app.use(helmet());
     app.use(express.static(path.join(__dirname, '..', 'dist')));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
