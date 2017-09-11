@@ -95,6 +95,7 @@ module.exports = {
                     }), (err) => {
                         // Any errors sending the email?
                         if (err) {
+                            console.log(err);
                             user.remove();
                             return next({
                                 status: 500,
