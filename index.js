@@ -11,7 +11,7 @@ const env = require('node-env-file');
 mongoose.Promise = global.Promise;
 
 // Environnment Variables
-env('.env');
+// env('.env');
 
 // Connect to Database
 mongoose.connect(process.env.DB_URL, { useMongoClient: true }).then(require('./server'))
