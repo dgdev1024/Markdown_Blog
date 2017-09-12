@@ -11,7 +11,7 @@ const sender = `${process.env.SITE_AUTHOR} <${process.env.EMAIL_ADDRESS}>`;
 
 // Set up and export the email transport
 module.exports.transport = nodemailer.createTransport({
-    host: 'https://mail.google.com',
+    service: process.env.EMAIL_SERVICE,
     port: 465,
     secure: true,
     auth: {
