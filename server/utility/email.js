@@ -10,11 +10,15 @@ const nodemailer = require('nodemailer');
 const sender = `${process.env.SITE_AUTHOR} <${process.env.EMAIL_ADDRESS}>`;
 
 // Set up and export the email transport
-module.exports.transport = nodemailer.createTransport({
+module.exports.transport = nodemailer.createTransport('SMTP', {
     service: process.env.EMAIL_SERVICE,
     auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD
+        XOAuth2: {
+            user: process.env.EMAIL_ADDRESS,
+            clientId: process.env.EMAIL_CLIENT_ID,
+            clientSecret: process.env.EMAIL_CLIENT_SECRET,
+            refreshToken: process.env.EMAIL_REFRESH_TOKEN
+        }
     },
     tls: {
         rejectUnauthorized: false
