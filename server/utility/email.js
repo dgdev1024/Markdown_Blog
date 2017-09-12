@@ -5,6 +5,7 @@
 
 // Imports
 const nodemailer = require('nodemailer');
+const XOAuth2 = require('xoauth2');
 
 // Our email sender.
 const sender = `${process.env.SITE_AUTHOR} <${process.env.EMAIL_ADDRESS}>`;
