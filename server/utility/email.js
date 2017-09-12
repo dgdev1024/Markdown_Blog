@@ -5,24 +5,22 @@
 
 // Imports
 const nodemailer = require('nodemailer');
-const XOAuth2 = require('xoauth2');
 
 // Our email sender.
 const sender = `${process.env.SITE_AUTHOR} <${process.env.EMAIL_ADDRESS}>`;
 
 // Set up and export the email transport
-module.exports.transport = nodemailer.createTransport('SMTP', {
-    service: process.env.EMAIL_SERVICE,
+module.exports.transport = nodemailer.createTransport({
+    host: 'https://mail.google.com',
+    port: 465,
+    secure: true,
     auth: {
-        XOAuth2: {
-            user: process.env.EMAIL_ADDRESS,
-            clientId: process.env.EMAIL_CLIENT_ID,
-            clientSecret: process.env.EMAIL_CLIENT_SECRET,
-            refreshToken: process.env.EMAIL_REFRESH_TOKEN
-        }
-    },
-    tls: {
-        rejectUnauthorized: false
+        type: 'oauth2',
+        user: process.env.EMAIL_ADDRESS,
+        clientId: process.env.EMAIL_CLIENT_ID,
+        clientSecret: process.env.EMAIL_CLIENT_SECRET,
+        accessToken: process.env.EMAIL_ACCESS_TOKEN,
+        refreshToken: process.env.EMAIL_REFRESH_TOKEN
     }
 });
 
