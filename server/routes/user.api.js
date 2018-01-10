@@ -176,6 +176,17 @@ router.put('/unsubscribe/:targetId', authUtility.jwtAuthentication, (req, res) =
     });
 });
 
+// DELETE: Removes a user account.
+router.delete('/delete', authUtility.jwtAuthentication, (req, res) => {
+    authUtility.testLogin(req, (err, user) => {
+        if (err) { return res.status(err.status).json({ error: err }); }
+        userController.removeUser(user.id, (err, ok) => {
+            if (err) { return res.status(err.status).json({ error: err }) }
+            return res.status(200).json(ok);
+        });
+    });
+})
+
 // GET: Is a user subscribed to another?
 router.get('/isSubscribed', (req, res) => {
     userController.isSubscribed({

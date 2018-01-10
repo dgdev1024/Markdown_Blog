@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { BlogService } from '../../services/blog.service';
+import { UserService } from '../../services/user.service';
+import { FlashService, FlashType } from '../../services/flash.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +20,7 @@ export class DashboardComponent implements OnInit {
   // Fetching flags.
   private subBlogsFetching: boolean = false;
   private hotBlogsFetching: boolean = false;
+  private deleting: boolean = false;
 
   // Subscription blogs.
   private subBlogs: any[] = [];
@@ -123,7 +126,9 @@ export class DashboardComponent implements OnInit {
     private routerService: Router,
     private activatedRoute: ActivatedRoute,
     private loginService: LoginService,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private userService: UserService,
+    private flashService: FlashService
   ) { }
 
   ngOnInit() {
@@ -157,6 +162,35 @@ export class DashboardComponent implements OnInit {
       case 'subs': if (this.subBlogsLastPage === false) { this.fetchSubBlogs(this.subBlogsPage + 1); } break;
       case 'hot':  if (this.hotBlogsLastPage === false) { this.fetchHotBlogs(this.hotBlogsPage + 1); } break;
     }
+  }
+
+  deleteUser (ev) {
+    ev.preventDefault();
+    const aysOne = confirm('This will delete your account, your blogs, and your comments. Are you sure you want to delete your account?');
+    const aysTwo = confirm('Are you ABSOLUTELY sure you want to delete your account?');
+
+    if (aysOne === false || aysTwo === false) { return; }
+
+    this.deleting = true;
+    this.userService.deleteUser().subscribe(
+      (response) => {
+        const { message } = response.json();
+
+        this.loginService.clearToken();
+        this.flashService.deploy(message, [], FlashType.OK);
+        this.routerService.navigate([ '/' ], { replaceUrl: true });
+      },
+
+      (error) => {
+        const { status, message } = error.json().error;
+        this.flashService.deploy(message, [], FlashType.Error);
+        this.deleting = false;
+
+        if (status === 401) {
+          this.routerService.navigate([ '/user/login' ], { replaceUrl: true });
+        }
+      }
+    );
   }
 
 }

@@ -73,4 +73,8 @@ export class UserService {
     return this.httpService.get(`/api/user/isSubscribed?userId=${userId}&targetId=${targetId}`);
   }
 
+  deleteUser () {
+    return this.httpService.delete('/api/user/delete', this.loginService.buildRequestOptions());
+  }
+
 }

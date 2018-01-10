@@ -5,6 +5,7 @@
 
 // Imports
 const waterfall = require('async').waterfall;
+const forEachOf = require('async').forEachOf;
 const mongoose = require('mongoose');
 const userModel = require('../models/user.model');
 const blogModel = require('../models/blog.model');
@@ -533,5 +534,115 @@ module.exports = {
 
             return callback(null, result);
         });
+    },
+
+    ///
+    /// @fn     removeUser
+    /// @brief  Deletes a user's account.
+    ///
+    /// @param  {string}    id      The ID of the user to be deleted.
+    /// @param  {function}  done    Run when finished.
+    ///
+    removeUser (id, done) {
+        waterfall([
+            // First, find and remove all blogs authored by this account.
+            (next) => {
+                blogModel.remove({ authorId: id })
+                    .then(() => {
+                        return next(null);
+                    })
+                    .catch((err) => {
+                        console.error(`userController.removeUser (delete blogs) - ${err.stack}`);
+                        return next({
+                            status: 500,
+                            message: 'An error has occured while deleting your account. Try again later.'
+                        });
+                    });
+            },
+
+            // Next, find and remove all blog comments authored by this account.
+            (next) => {
+                blogModel.find({}).then((blogs) => {
+                    forEachOf(blogs, (val, key, fornext) => {
+                        if (val.comments.length === 0) {
+                            return fornext();
+                        }
+
+                        val.comments = val.comments.filter((comment) => {
+                            return comment.authorId !== id;
+                        });
+
+                        val.save().then(() => {
+                            return fornext();
+                        }).catch((err) => {
+                            console.error(`userController.removeUser (delete comment) - ${err.stack}`);
+                            return fornext();
+                        });
+                    }, (err) => {
+                        if (err) { return next(err); }
+                        return next(null);
+                    });
+                });
+            },
+
+            // Next, remove the user from all users' subscriber lists.
+            (next) => {
+                userModel.find({}).then((users) => {
+                    forEachOf(users, (val, key, fornext) => {
+                        if (val.subscriptions.length === 0) {
+                            return fornext();
+                        }
+
+                        val.subscriptions = val.subscriptions.filter((sub) => {
+                            return sub.subscriberId !== id;
+                        });
+
+                        val.save().then(() => {
+                            return fornext();
+                        }).catch((err) => {
+                            console.error(`userController.removeUser (delete subscription) - ${err.stack}`);
+                            return fornext();
+                        });
+                    }, (err) => {
+                        if (err) { return next(err); }
+                        return next(null);
+                    });
+                }).catch((err) => {
+                    console.error(`userController.removeUser (delete subscriptions) - ${err.stack}`);
+                    return next({
+                        status: 500,
+                        message: 'An error has occured while deleting your account. Try again later.'
+                    });
+                });
+            },
+
+            // Now remove the account from the database.
+            (next) => {
+                userModel.findById(id).then((user) => {
+                    if (!user) {
+                        console.error(`userController.removeUser (delete account) - User not found.`);
+                        return next({
+                            status: 404,
+                            message: 'User account not found.'
+                        });
+                    }
+
+                    user.remove().then(() => {
+                        return next(null);
+                    }).catch((err) => {
+                        console.error(`userController.removeUser (delete account) - ${err.stack}`);
+                        return next({
+                            status: 500,
+                            message: 'An error has occured while deleting your account. Try again later.'
+                        });
+                    });
+                });
+            }
+        ], (err) => {
+            if (err) { return done(err); }
+            return done(null, {
+                message: 'Your account has been deleted.'
+            });
+        })
     }
 };

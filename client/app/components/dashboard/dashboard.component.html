@@ -1,5 +1,5 @@
 <div class="tdm-dashboard">
-  <div class="tdm-dashboard-menu">
+  <div *ngIf="deleting === false; else tdmDeletingAccount" class="tdm-dashboard-menu">
     <span class="tdm-dashboard-heading">Account Settings</span>
     <ul>
       <li>
@@ -18,9 +18,21 @@
         <a routerLink="/user/logout">Log Out</a><br />
         <em>Logs you out of your TDM account.</em>
       </li>
+      <li>
+        <a href="#" (click)="deleteUser($event)">Delete Account</a><br />
+        <em>
+          Deletes your account, blogs, and comments.<br />
+          WARNING: This cannot be undone!!!
+        </em>
+      </li>
     </ul>
   </div>
-  <div class="tdm-dashboard-panes">
+  <ng-template #tdmDeletingAccount>
+    <div class="tdm-dashboard-menu">
+      <span class="tdm-dashboard-heading">Deleting Account...</span>
+    </div>
+  </ng-template>
+  <div *ngIf="deleting === false" class="tdm-dashboard-panes">
     <span class="tdm-dashboard-heading">Blogs From Your Subscriptions</span>
     <div *ngIf="subBlogsFetching === false || subBlogs.length > 0; else fetchingSubBlogs">
       <div *ngIf="subBlogsError === ''; else fetchingSubBlogsError">
@@ -50,7 +62,7 @@
       <p><em>Fetching blogs by subscriptions. Please wait...</em></p>
     </ng-template>
   </div>
-  <div class="tdm-dashboard-panes">
+  <div *ngIf="deleting === false" class="tdm-dashboard-panes">
     <span class="tdm-dashboard-heading">Hot Blogs</span>
     <div *ngIf="hotBlogsFetching === false || hotBlogs.length > 0; else fetchingHotBlogs">
       <div *ngIf="hotBlogsError === ''; else fetchingHotBlogsError">

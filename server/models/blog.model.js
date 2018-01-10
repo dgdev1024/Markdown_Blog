@@ -20,7 +20,7 @@ const blogRatingSchema = new mongoose.Schema({
             message: 'Blog ratings shall range from 1 to 5.'
         }
     }
-});
+}, { usePushEach: true });
 
 // Blog Comment Schema
 const blogCommentSchema = new mongoose.Schema({
@@ -40,7 +40,7 @@ const blogCommentSchema = new mongoose.Schema({
             message: 'Comments shall be between 10 and 200 characters in length.'
         }
     }
-});
+}, { usePushEach: true });
 
 // Blog Schema
 const blogSchema = new mongoose.Schema({
@@ -72,7 +72,7 @@ const blogSchema = new mongoose.Schema({
 
     // An array of the blog's comments.
     comments: [blogCommentSchema]
-});
+}, { usePushEach: true });
 
 // Index the blog's keywords, for search purposes.
 blogSchema.index({ keywords: "text" });

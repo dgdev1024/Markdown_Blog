@@ -26,7 +26,7 @@ const passwordResetSchema = new mongoose.Schema({
     // Has this token been spent?
     spent: { type: Boolean, default: false },
     spendBy: { type: Date, default: Date.now, expires: 600 }
-});
+}, { usePushEach: true });
 
 // Generates an authentication hash
 passwordResetSchema.methods.generateAuthenticateCode = function () {

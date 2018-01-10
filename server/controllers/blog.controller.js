@@ -743,6 +743,7 @@ module.exports = {
 
                 blog.save(err => {
                     if (err) {
+                        console.error(`blogController.postComment (save comment) - ${err.stack}`);
                         return next({
                             status: 500,
                             message: 'An error occured while saving your comment. Try again later.'

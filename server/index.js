@@ -6,6 +6,8 @@
 // Imports
 const path = require('path');
 const helmet = require('helmet');
+const cors = require('cors');
+const compression = require('compression');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -16,6 +18,8 @@ module.exports = () => {
     // Express and Middleware
     const app = express();
     app.use(helmet());
+    app.use(cors());
+    app.use(compression());
     app.use(express.static(path.join(__dirname, '..', 'dist')));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
