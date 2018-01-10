@@ -7,6 +7,7 @@
     .tdm-form-heading {
         display: block;
         padding: 8px 0px;
+        font-family: $special-font;
         font-variant: small-caps;
         font-size: 32px;
         text-align: center;
@@ -23,8 +24,6 @@
     .tdm-form-subheading {
         display: block;
         padding: 8px 0px;
-        font-family: $special-font;
-        font-variant: small-caps;
         font-size: 24px;
         text-align: center;
 
