@@ -34,7 +34,7 @@
     "html-escape": "^2.0.0",
     "http-status-codes": "^1.2.0",
     "jsonwebtoken": "^7.4.3",
-    "marked": "^0.3.6",
+    "marked": "^0.3.12",
     "moment": "^2.18.1",
     "mongoose": "^4.11.7",
     "node-env-file": "^0.1.8",
