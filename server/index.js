@@ -25,6 +25,17 @@ module.exports = () => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(passport.initialize());
 
+    // Force HTTPS on Heroku.
+    if (process.env.NODE_ENV === 'production') {
+        app.use((req, res, next) => {
+            if (req.header('x-forwarded-proto') !== 'https') {
+                res.redirect(`https://${req.header('host')}${req.url}`);
+            } else {
+                next();
+            }
+        });
+    }
+
     // API Routing
     app.use('/api/user', require('./routes/user.api'));
     app.use('/api/blog', require('./routes/blog.api'));
